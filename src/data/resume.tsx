@@ -2,28 +2,28 @@ import { Icons } from "@/components/icons";
 import { HomeIcon, NotebookIcon } from "lucide-react";
 
 export const DATA = {
-  name: "Mahdi Jalili",
-  initials: "MJ",
-  url: "https://dillion.io",
-  location: "Tehran, IR",
-  locationLink: "https://www.google.com/maps/place/sanfrancisco",
-  description:
-    "Software Engineer turned Entrepreneur. I love building things and helping people. Very active on Twitter.",
-  summary:
-    "At the end of 2022, I quit my job as a software engineer to go fulltime into building and scaling my own SaaS businesses. In the past, [I pursued a double degree in computer science and business](/#education), [interned at big tech companies in Silicon Valley](https://www.youtube.com/watch?v=d-LJ2e5qKdE), and [competed in over 21 hackathons for fun](/#hackathons). I also had the pleasure of being a part of the first ever in-person cohort of buildspace called [buildspace sf1](https://buildspace.so/sf1).",
-  avatarUrl: "/me.jpg",
-  skills: [
+  "name": "Mahdi Jalili",
+  "initials": "MJ",
+  "url": "https://www.linkedin.com/in/mahdi-jalili",
+  "location": "Tehran, IR",
+  "locationLink": "https://www.google.com/maps/place/Tehran,+Iran",
+  "description": "I'm a Software Engineer and Front-End Developer with a passion for building startups and turning ideas into impactful products. I enjoy diving into AI and mentoring future tech enthusiasts.",
+  "summary": "Hi there! I’m Mahdi, a Front-End Developer and Software Engineer. My journey includes building innovative platforms like Tarhvar, a merchandise platform for artists, and contributing to AIsion, an AI-powered image generation platform. I love blending creativity with technology and have honed my skills in React, Next.js, AntDesign, and Material UI. Alongside these, I’ve earned accolades in international robotics and enjoy mentoring and exploring AI and Machine Learning.",
+  "avatarUrl": "/me.jpg",
+  "skills": [
     "React",
     "Next.js",
-    "Typescript",
-    "Node.js",
+    "AntDesign",
+    "Material UI",
+    "TypeScript",
+    "JavaScript",
     "Python",
-    "Go",
-    "Postgres",
-    "Docker",
-    "Kubernetes",
-    "Java",
-    "C++",
+    "CSS3",
+    "Bootstrap 4",
+    "Mechatronics",
+    "AI",
+    "Machine Learning",
+    "Server-Side Rendering (SSR)"
   ],
   navbar: [
     { href: "/", icon: HomeIcon, label: "Home" },
@@ -70,239 +70,178 @@ export const DATA = {
     },
   },
 
-  work: [
-    {
-      company: "Atomic Finance",
-      href: "https://atomic.finance",
-      badges: [],
-      location: "Remote",
-      title: "Bitcoin Protocol Engineer",
-      logoUrl: "/atomic.png",
-      start: "May 2021",
-      end: "Oct 2022",
-      description:
-        "Implemented the Bitcoin discreet log contract (DLC) protocol specifications as an open source Typescript SDK. Dockerized all microservices and setup production kubernetes cluster. Architected a data lake using AWS S3 and Athena for historical backtesting of bitcoin trading strategies. Built a mobile app using react native and typescript.",
-    },
-    {
-      company: "Shopify",
-      badges: [],
-      href: "https://shopify.com",
-      location: "Remote",
-      title: "Software Engineer",
-      logoUrl: "/shopify.svg",
-      start: "January 2021",
-      end: "April 2021",
-      description:
-        "Implemented a custom Kubernetes controller in Go to automate the deployment of MySQL and ProxySQL custom resources in order to enable 2,000+ internal developers to instantly deploy their app databases to production. Wrote several scripts in Go to automate MySQL database failovers while maintaining master-slave replication topologies and keeping Zookeeper nodes consistent with changes.",
-    },
-    {
-      company: "Nvidia",
-      href: "https://nvidia.com/",
-      badges: [],
-      location: "Santa Clara, CA",
-      title: "Software Engineer",
-      logoUrl: "/nvidia.png",
-      start: "January 2020",
-      end: "April 2020",
-      description:
-        "Architected and wrote the entire MVP of the GeForce Now Cloud Gaming internal admin and A/B testing dashboard using React, Redux, TypeScript, and Python.",
-    },
-    {
-      company: "Splunk",
-      href: "https://splunk.com",
-      badges: [],
-      location: "San Jose, CA",
-      title: "Software Engineer",
-      logoUrl: "/splunk.svg",
-      start: "January 2019",
-      end: "April 2019",
-      description:
-        "Co-developed a prototype iOS app with another intern in Swift for the new Splunk Phantom security orchestration product (later publicly demoed and launched at .conf annual conference in Las Vegas). Implemented a realtime service for the iOS app in Django (Python) and C++; serialized data using protobufs transmitted over gRPC resulting in an approximate 500% increase in data throughput.",
-    },
-    {
-      company: "Lime",
-      href: "https://li.me/",
-      badges: [],
-      location: "San Francisco, CA",
-      title: "Software Engineer",
-      logoUrl: "/lime.svg",
-      start: "January 2018",
-      end: "April 2018",
-      description:
-        "Proposed and implemented an internal ruby API for sending/receiving commands to scooters over LTE networks. Developed a fully automated bike firmware update system to handle asynchronous firmware updates of over 100,000+ scooters worldwide, and provide progress reports in real-time using React, Ruby on Rails, PostgreSQL and AWS EC2 saving hundreds of developer hours.",
-    },
-    {
-      company: "Mitre Media",
-      href: "https://mitremedia.com/",
-      badges: [],
-      location: "Toronto, ON",
-      title: "Software Engineer",
-      logoUrl: "/mitremedia.png",
-      start: "May 2017",
-      end: "August 2017",
-      description:
-        "Designed and implemented a robust password encryption and browser cookie storage system in Ruby on Rails. Leveraged the Yahoo finance API to develop the dividend.com equity screener",
-    },
-  ],
-  education: [
-    {
-      school: "Buildspace",
-      href: "https://buildspace.so",
-      degree: "s3, s4, sf1, s5",
-      logoUrl: "/buildspace.jpg",
-      start: "2023",
-      end: "2024",
-    },
-    {
-      school: "University of Waterloo",
-      href: "https://uwaterloo.ca",
-      degree: "Bachelor's Degree of Computer Science (BCS)",
-      logoUrl: "/waterloo.png",
-      start: "2016",
-      end: "2021",
-    },
-    {
-      school: "Wilfrid Laurier University",
-      href: "https://wlu.ca",
-      degree: "Bachelor's Degree of Business Administration (BBA)",
-      logoUrl: "/laurier.png",
-      start: "2016",
-      end: "2021",
-    },
-    {
-      school: "International Baccalaureate",
-      href: "https://ibo.org",
-      degree: "IB Diploma",
-      logoUrl: "/ib.png",
-      start: "2012",
-      end: "2016",
+  "work": [
+  {
+    "company": "Tapsell",
+    "href": "https://tapsell.ir",
+    "badges": [],
+    "location": "Tehran, Iran",
+    "title": "Front-End Developer",
+    "logoUrl": "/tapsell.png",
+    "start": "January 2024",
+    "end": "Present",
+    "description": "Developing and maintaining scalable front-end solutions to enhance user engagement and provide seamless experiences across Tapsell’s advertising platforms."
+  },
+  {
+    "company": "Siliconamma | سیلیکون امّا",
+    "href": "https://siliconamma.com",
+    "badges": [],
+    "location": "Tehran, Iran",
+    "title": "Podcast Host",
+    "logoUrl": "/siliconamma.png",
+    "start": "March 2021",
+    "end": "Present",
+    "description": "Hosting and producing insightful podcasts discussing cutting-edge tech trends and their impact, fostering a growing tech-savvy community."
+  },
+  {
+    "company": "AIsion",
+    "href": "https://aision.com",
+    "badges": [],
+    "location": "Tehran, Iran",
+    "title": "Innovative Front-End Developer & PWA Architect",
+    "logoUrl": "/aision.png",
+    "start": "August 2023",
+    "end": "March 2024",
+    "description": "Designed and implemented solutions for an AI-powered image generation platform supporting multilingual audiences. Developed unified source code for efficient updates and optimized low-code/no-code projects for diverse user needs."
+  },
+  {
+    "company": "LinkShim",
+    "href": "https://linkshim.com",
+    "badges": [],
+    "location": "Hamedan, Iran",
+    "title": "Member of the Management Board & Board Director",
+    "logoUrl": "/linkshim.png",
+    "start": "August 2023",
+    "end": "March 2024",
+    "description": "Led a student-driven team to create a collaborative platform for students and entrepreneurs. Organized community events and contributed to key decisions improving the platform’s user experience."
+  },
+  {
+    "company": "Awdge Pazhoohesh Sanaat (APS) Consulting Engineers",
+    "href": "https://aps.com",
+    "badges": [],
+    "location": "Tehran, Iran",
+    "title": "Software Engineer Consultant & CMS Strategist",
+    "logoUrl": "/aps.png",
+    "start": "March 2023",
+    "end": "February 2024",
+    "description": "Developed custom CMS solutions and internal content systems for clients. Improved system uptime and visibility through SEO strategies and reliable email management."
+  },
+  {
+    "company": "Tarhvar",
+    "href": "https://tarhvar.com",
+    "badges": [],
+    "location": "Tehran, Iran",
+    "title": "Startup Trailblazer, Stakeholder & Frontend Developer",
+    "logoUrl": "/tarhvar.png",
+    "start": "December 2020",
+    "end": "May 2023",
+    "description": "Built a scalable merchandise platform for artists to monetize designs. Implemented SSR with Next.js, optimized performance, and solved usability challenges with innovative front-end solutions."
+  },
+  {
+    "company": "Ponisha",
+    "href": "https://ponisha.com",
+    "badges": [],
+    "location": "Tehran, Iran",
+    "title": "Freelance Frontend Developer",
+    "logoUrl": "/ponisha.png",
+    "start": "September 2020",
+    "end": "December 2020",
+    "description": "Developed a responsive front-end for an educational platform using Bootstrap and CSS3. Collaborated with a local high school to connect students with teachers and counselors."
     },
   ],
-  projects: [
-    {
-      title: "Chat Collect",
-      href: "https://chatcollect.com",
-      dates: "Jan 2024 - Feb 2024",
-      active: true,
-      description:
-        "With the release of the [OpenAI GPT Store](https://openai.com/blog/introducing-the-gpt-store), I decided to build a SaaS which allows users to collect email addresses from their GPT users. This is a great way to build an audience and monetize your GPT API usage.",
-      technologies: [
-        "Next.js",
-        "Typescript",
-        "PostgreSQL",
-        "Prisma",
-        "TailwindCSS",
-        "Stripe",
-        "Shadcn UI",
-        "Magic UI",
-      ],
-      links: [
-        {
-          type: "Website",
-          href: "https://chatcollect.com",
-          icon: <Icons.globe className="size-3" />,
-        },
-      ],
-      image: "",
-      video:
-        "https://pub-83c5db439b40468498f97946200806f7.r2.dev/chat-collect.mp4",
-    },
-    {
-      title: "Magic UI",
-      href: "https://magicui.design",
-      dates: "June 2023 - Present",
-      active: true,
-      description:
-        "Designed, developed and sold animated UI components for developers.",
-      technologies: [
-        "Next.js",
-        "Typescript",
-        "PostgreSQL",
-        "Prisma",
-        "TailwindCSS",
-        "Stripe",
-        "Shadcn UI",
-        "Magic UI",
-      ],
-      links: [
-        {
-          type: "Website",
-          href: "https://magicui.design",
-          icon: <Icons.globe className="size-3" />,
-        },
-        {
-          type: "Source",
-          href: "https://github.com/magicuidesign/magicui",
-          icon: <Icons.github className="size-3" />,
-        },
-      ],
-      image: "",
-      video: "https://cdn.magicui.design/bento-grid.mp4",
-    },
-    {
-      title: "llm.report",
-      href: "https://llm.report",
-      dates: "April 2023 - September 2023",
-      active: true,
-      description:
-        "Developed an open-source logging and analytics platform for OpenAI: Log your ChatGPT API requests, analyze costs, and improve your prompts.",
-      technologies: [
-        "Next.js",
-        "Typescript",
-        "PostgreSQL",
-        "Prisma",
-        "TailwindCSS",
-        "Shadcn UI",
-        "Magic UI",
-        "Stripe",
-        "Cloudflare Workers",
-      ],
-      links: [
-        {
-          type: "Website",
-          href: "https://llm.report",
-          icon: <Icons.globe className="size-3" />,
-        },
-        {
-          type: "Source",
-          href: "https://github.com/dillionverma/llm.report",
-          icon: <Icons.github className="size-3" />,
-        },
-      ],
-      image: "",
-      video: "https://cdn.llm.report/openai-demo.mp4",
-    },
-    {
-      title: "Automatic Chat",
-      href: "https://automatic.chat",
-      dates: "April 2023 - March 2024",
-      active: true,
-      description:
-        "Developed an AI Customer Support Chatbot which automatically responds to customer support tickets using the latest GPT models.",
-      technologies: [
-        "Next.js",
-        "Typescript",
-        "PostgreSQL",
-        "Prisma",
-        "TailwindCSS",
-        "Shadcn UI",
-        "Magic UI",
-        "Stripe",
-        "Cloudflare Workers",
-      ],
-      links: [
-        {
-          type: "Website",
-          href: "https://automatic.chat",
-          icon: <Icons.globe className="size-3" />,
-        },
-      ],
-      image: "",
-      video:
-        "https://pub-83c5db439b40468498f97946200806f7.r2.dev/automatic-chat.mp4",
-    },
+  "education": [
+  {
+    "school": "Hamedan University of Technology",
+    "href": "https://hut.ac.ir",
+    "degree": "Bachelor of Engineering - BE in Computer Engineering",
+    "logoUrl": "/hut.png",
+    "start": "2020",
+    "end": "Present"
+  },
+  {
+    "school": "Technorobiran",
+    "href": "https://technorobiran.com",
+    "degree": "Mechatronics, Robotics, and Automation Engineering",
+    "logoUrl": "/technorobiran.png",
+    "start": "2014",
+    "end": "2019"
+    }
   ],
-  hackathons: [
+  "projects": [
+  {
+    "title": "Tarhvar Merchandise Platform",
+    "href": "https://tarhvar.com",
+    "dates": "December 2020 - May 2023",
+    "active": false,
+    "description": "Launched a platform that empowered artists to monetize their designs by turning them into merchandise. Solved performance bottlenecks with SSR in Next.js and created a seamless, responsive user interface.",
+    "technologies": [
+      "Next.js",
+      "React",
+      "Styled Components",
+      "Material UI",
+      "Node.js",
+      "PostgreSQL"
+    ],
+    "links": [
+      {
+        "type": "Website",
+        "href": "https://tarhvar.com",
+        "icon": "globe"
+      }
+    ],
+    "image": "",
+    "video": ""
+  },
+  {
+    "title": "AIsion - AI Image Generation Platform",
+    "href": "https://aision.com",
+    "dates": "August 2023 - March 2024",
+    "active": true,
+    "description": "Built a multilingual AI-powered image generation platform tailored for industries such as marketing and design. Implemented advanced PWA features for seamless performance across devices.",
+    "technologies": [
+      "React",
+      "PWA",
+      "TypeScript",
+      "Node.js",
+      "Responsive Design"
+    ],
+    "links": [],
+    "image": "",
+    "video": ""
+  },
+  {
+    "title": "Content Management System for APS",
+    "href": "https://aps.com",
+    "dates": "March 2023 - February 2024",
+    "active": true,
+    "description": "Developed a custom CMS that streamlined content production and enhanced SEO visibility. Focused on intuitive usability and improved operational uptime for clients.",
+    "technologies": [
+      "Node.js",
+      "React",
+      "SEO Optimization",
+      "PostgreSQL"
+    ],
+    "links": [],
+    "image": "",
+    "video": ""
+  },
+  {
+    "title": "Educational Platform for Barnam",
+    "href": "",
+    "dates": "September 2020 - December 2020",
+    "active": false,
+    "description": "Developed a digital platform connecting students with teachers and counselors. Built a fully responsive front-end using Bootstrap 4 and CSS3.",
+    "technologies": [
+      "Bootstrap 4",
+      "CSS3",
+      "JavaScript"
+    ],
+    "links": [],
+    "image": "",
+    "video": ""
+  }
+  ],
+  "hackathons": [
     {
       title: "Hack Western 5",
       dates: "November 23rd - 25th, 2018",

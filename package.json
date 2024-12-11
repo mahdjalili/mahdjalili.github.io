@@ -3,6 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "bun:dev": "bun --bun run dev",
+    "bun:build": "bun --bun run build",
+    "bun:start": "bun --bun run start",
+    "bun:lint": "bun --bun run lint",
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
@@ -42,6 +46,7 @@
     "eslint": "^8",
     "eslint-config-next": "14.2.4",
     "postcss": "^8",
+    "prettier": "^3.4.1",
     "tailwindcss": "^3.4.1",
     "typescript": "^5"
   }
