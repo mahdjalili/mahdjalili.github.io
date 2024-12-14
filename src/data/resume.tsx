@@ -35,7 +35,7 @@ export const DATA = {
     social: {
       GitHub: {
         name: "GitHub",
-        url: "https://github.com/mahdi-jalili",
+        url: "https://github.com/mahdjalili",
         icon: Icons.github,
 
         navbar: true,
@@ -77,7 +77,7 @@ export const DATA = {
     "badges": [],
     "location": "Tehran, Iran",
     "title": "Front-End Developer",
-    "logoUrl": "/tapsell.png",
+    "logoUrl": "/tapsell.jpeg",
     "start": "January 2024",
     "end": "Present",
     "description": "Developing and maintaining scalable front-end solutions to enhance user engagement and provide seamless experiences across Tapsell’s advertising platforms."
@@ -88,7 +88,7 @@ export const DATA = {
     "badges": [],
     "location": "Tehran, Iran",
     "title": "Podcast Host",
-    "logoUrl": "/siliconamma.png",
+    "logoUrl": "/siliconamma.jpeg",
     "start": "March 2021",
     "end": "Present",
     "description": "Hosting and producing insightful podcasts discussing cutting-edge tech trends and their impact, fostering a growing tech-savvy community."
@@ -99,25 +99,25 @@ export const DATA = {
     "badges": [],
     "location": "Tehran, Iran",
     "title": "Innovative Front-End Developer & PWA Architect",
-    "logoUrl": "/aision.png",
+    "logoUrl": "/aision.jpeg",
     "start": "August 2023",
     "end": "March 2024",
     "description": "Designed and implemented solutions for an AI-powered image generation platform supporting multilingual audiences. Developed unified source code for efficient updates and optimized low-code/no-code projects for diverse user needs."
   },
   {
     "company": "LinkShim",
-    "href": "https://linkshim.com",
+    "href": "#",
     "badges": [],
     "location": "Hamedan, Iran",
     "title": "Member of the Management Board & Board Director",
-    "logoUrl": "/linkshim.png",
+    "logoUrl": "/linkshim.jpeg",
     "start": "August 2023",
     "end": "March 2024",
     "description": "Led a student-driven team to create a collaborative platform for students and entrepreneurs. Organized community events and contributed to key decisions improving the platform’s user experience."
   },
   {
     "company": "Awdge Pazhoohesh Sanaat (APS) Consulting Engineers",
-    "href": "https://aps.com",
+    "href": "https://aps.ir",
     "badges": [],
     "location": "Tehran, Iran",
     "title": "Software Engineer Consultant & CMS Strategist",
@@ -132,18 +132,18 @@ export const DATA = {
     "badges": [],
     "location": "Tehran, Iran",
     "title": "Startup Trailblazer, Stakeholder & Frontend Developer",
-    "logoUrl": "/tarhvar.png",
+    "logoUrl": "/tarhvar.jpeg",
     "start": "December 2020",
     "end": "May 2023",
     "description": "Built a scalable merchandise platform for artists to monetize designs. Implemented SSR with Next.js, optimized performance, and solved usability challenges with innovative front-end solutions."
   },
   {
-    "company": "Ponisha",
-    "href": "https://ponisha.com",
+    "company": "Barnam",
+    "href": "#",
     "badges": [],
     "location": "Tehran, Iran",
     "title": "Freelance Frontend Developer",
-    "logoUrl": "/ponisha.png",
+    "logoUrl": "/barnam.jpg",
     "start": "September 2020",
     "end": "December 2020",
     "description": "Developed a responsive front-end for an educational platform using Bootstrap and CSS3. Collaborated with a local high school to connect students with teachers and counselors."
@@ -154,7 +154,7 @@ export const DATA = {
     "school": "Hamedan University of Technology",
     "href": "https://hut.ac.ir",
     "degree": "Bachelor of Engineering - BE in Computer Engineering",
-    "logoUrl": "/hut.png",
+    "logoUrl": "/hut.jpeg",
     "start": "2020",
     "end": "Present"
   },
