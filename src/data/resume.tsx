@@ -13,74 +13,100 @@ export const DATA = {
     'Hi there! I’m Mahdi, a Front-End Developer and Software Engineer. My journey includes building innovative platforms like Tarhvar, a merchandise platform for artists, and contributing to AIsion, an AI-powered image generation platform. I love blending creativity with technology and have honed my skills in React, Next.js, AntDesign, and Material UI. Alongside these, I’ve earned accolades in international robotics and enjoy mentoring and exploring AI and Machine Learning.',
   avatarUrl: '/me.jpg',
   skills: [
-    'React',
+    'React.js',
     'Next.js',
-    'AntDesign',
-    'Material UI',
+    'Server-Side Rendering (SSR)',
+    'Server-Side Rendering (SSG)',
+    'PWA',
+    'Node.js',
+    'Express.js',
+    'Bun',
+    'Elysia.js',
     'TypeScript',
     'JavaScript',
     'Python',
+    'AntDesign',
+    'Material UI',
     'CSS3',
     'Bootstrap 4',
+    'Tailwind CSS',
     'Mechatronics',
+    'Robotics',
+    'Image Processing',
+    'Computer Vision',
     'AI',
     'Machine Learning',
-    'Server-Side Rendering (SSR)'
+    'Deep Learning',
+    'Git',
+    'GitHub',
+    'GitLab',
+    'Docker',
+    'CI/CD',
+    'SEO'
   ],
   navbar: [
     { href: '/', icon: HomeIcon, label: 'Home' },
     { href: '/blog', icon: NotebookIcon, label: 'Blog' }
   ],
   contact: {
-    email: 'hello@example.com',
-    tel: '+123456789',
+    email: 'me@mahdi.im',
+    tel: '+1 (708) 680-6536',
     social: {
       GitHub: {
         name: 'GitHub',
         url: 'https://github.com/mahdjalili',
         icon: Icons.github,
-
         navbar: true
       },
       LinkedIn: {
         name: 'LinkedIn',
         url: 'https://www.linkedin.com/in/mahdi-jalili',
         icon: Icons.linkedin,
-
         navbar: true
       },
       X: {
         name: 'X',
         url: 'https://x.com/mahdjalili',
         icon: Icons.x,
-
         navbar: true
       },
       Youtube: {
         name: 'Youtube',
         url: 'https://www.youtube.com/@mahdjalili',
         icon: Icons.youtube,
-
         navbar: false
       },
       Bluesky: {
         name: 'Bluesky',
         url: 'https://bsky.app/profile/mahdi.im',
         icon: Icons.bluesky,
-
         navbar: true
       },
-      email: {
+      Email: {
         name: 'Send Email',
-        url: 'mailto:mahdiwise@gmail.com',
+        url: 'mailto:me@mahdi.im',
         icon: Icons.email,
-
-        navbar: false
+        navbar: true
       }
     }
   },
 
   work: [
+    {
+      company: 'Pixy',
+      href: 'https://pixy.ir',
+      badges: [],
+      location: 'Tehran, Iran',
+      title: 'Software Engineer',
+      logoUrl: '/pixy.png',
+      start: 'January 2024',
+      end: 'Present',
+      description:
+        'Leading development of a comprehensive AI platform that provides unified access to advanced AI models in Persian. ' +
+        'Implementing key features including AI-powered video subtitling, text-to-video conversion, image generation, ' +
+        'and multilingual chatbot capabilities. Developed a robust file management system and ensured seamless multilingual ' +
+        'support across all platform features, making AI tools accessible to Persian-speaking users.'
+    },
     {
       company: 'Tapsell',
       href: 'https://tapsell.ir',
@@ -95,7 +121,7 @@ export const DATA = {
     },
     {
       company: 'Siliconamma | سیلیکون امّا',
-      href: 'https://siliconamma.com',
+      href: 'https://siliconamma.ir',
       badges: [],
       location: 'Tehran, Iran',
       title: 'Podcast Host',
@@ -107,7 +133,7 @@ export const DATA = {
     },
     {
       company: 'AIsion',
-      href: 'https://aision.com',
+      href: 'https://aision.io',
       badges: [],
       location: 'Tehran, Iran',
       title: 'Innovative Front-End Developer & PWA Architect',
