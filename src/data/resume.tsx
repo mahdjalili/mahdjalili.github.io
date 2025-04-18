@@ -13,23 +13,28 @@ export const DATA = {
     'Hi there! I’m Mahdi, a Front-End Developer and Software Engineer. My journey includes building innovative platforms like Tarhvar, a merchandise platform for artists, and contributing to AIsion, an AI-powered image generation platform. I love blending creativity with technology and have honed my skills in React, Next.js, AntDesign, and Material UI. Alongside these, I’ve earned accolades in international robotics and enjoy mentoring and exploring AI and Machine Learning.',
   avatarUrl: '/me.jpg',
   skills: [
+    'TypeScript',
+    'JavaScript',
     'React.js',
     'Next.js',
     'Server-Side Rendering (SSR)',
     'Server-Side Rendering (SSG)',
     'PWA',
+    'React Native',
+    'Expo',
     'Node.js',
     'Express.js',
     'Bun',
     'Elysia.js',
-    'TypeScript',
-    'JavaScript',
     'Python',
     'AntDesign',
     'Material UI',
     'CSS3',
     'Bootstrap 4',
     'Tailwind CSS',
+    'React Query',
+    'Formik',
+    'Yup',
     'Mechatronics',
     'Robotics',
     'Image Processing',
@@ -42,7 +47,7 @@ export const DATA = {
     'GitLab',
     'Docker',
     'CI/CD',
-    'SEO'
+    'SEO Optimization'
   ],
   navbar: [
     { href: '/', icon: HomeIcon, label: 'Home' },
@@ -50,7 +55,7 @@ export const DATA = {
   ],
   contact: {
     email: 'me@mahdi.im',
-    tel: '+1 (708) 680-6536',
+    tel: '+98 933 967 67 54',
     social: {
       GitHub: {
         name: 'GitHub',
@@ -93,21 +98,6 @@ export const DATA = {
 
   work: [
     {
-      company: 'Pixy',
-      href: 'https://pixy.ir',
-      badges: [],
-      location: 'Tehran, Iran',
-      title: 'Software Engineer',
-      logoUrl: '/pixy.png',
-      start: 'January 2024',
-      end: 'Present',
-      description:
-        'Leading development of a comprehensive AI platform that provides unified access to advanced AI models in Persian. ' +
-        'Implementing key features including AI-powered video subtitling, text-to-video conversion, image generation, ' +
-        'and multilingual chatbot capabilities. Developed a robust file management system and ensured seamless multilingual ' +
-        'support across all platform features, making AI tools accessible to Persian-speaking users.'
-    },
-    {
       company: 'Tapsell',
       href: 'https://tapsell.ir',
       badges: [],
@@ -130,6 +120,21 @@ export const DATA = {
       end: 'Present',
       description:
         'Hosting and producing insightful podcasts discussing cutting-edge tech trends and their impact, fostering a growing tech-savvy community.'
+    },
+    {
+      company: 'Pixy',
+      href: 'https://pixy.ir',
+      badges: [],
+      location: 'Tehran, Iran',
+      title: 'Software Engineer',
+      logoUrl: '/pixy.png',
+      start: 'January 2024',
+      end: 'April 2025',
+      description:
+        'Leading development of a comprehensive AI platform that provides unified access to advanced AI models in Persian. ' +
+        'Implementing key features including AI-powered video subtitling, text-to-video conversion, image generation, ' +
+        'and multilingual chatbot capabilities. Developed a robust file management system and ensured seamless multilingual ' +
+        'support across all platform features, making AI tools accessible to Persian-speaking users.'
     },
     {
       company: 'AIsion',
