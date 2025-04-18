@@ -8,7 +8,7 @@ export const DATA = {
   location: 'Tehran, IR',
   locationLink: 'https://www.google.com/maps/place/Tehran,+Iran',
   description:
-    "I'm a Software Engineer and Front-End Developer with a passion for building startups and turning ideas into impactful products. I enjoy diving into AI and mentoring future tech enthusiasts.",
+    'A Software Engineer and Front-End Developer with a passion for building startups and turning ideas into impactful products. I enjoy diving into AI and mentoring future tech enthusiasts.',
   summary:
     'Hi there! I’m Mahdi, a Front-End Developer and Software Engineer. My journey includes building innovative platforms like Tarhvar, a merchandise platform for artists, and contributing to AIsion, an AI-powered image generation platform. I love blending creativity with technology and have honed my skills in React, Next.js, AntDesign, and Material UI. Alongside these, I’ve earned accolades in international robotics and enjoy mentoring and exploring AI and Machine Learning.',
   avatarUrl: '/me.jpg',
