@@ -1,6 +1,10 @@
 import BlurFade from '@/components/magicui/blur-fade';
 import { getBlogPosts } from '@/data/blog';
-import { defaultLanguage, isValidLanguage } from '@/config/languages';
+import {
+  defaultLanguage,
+  isValidLanguage,
+  languages
+} from '@/config/languages';
 import Link from 'next/link';
 import LanguageSwitcher from '@/components/LanguageSwitcher';
 import { notFound } from 'next/navigation';
@@ -23,6 +27,13 @@ type BlogPost = {
   slug: string;
   source: string;
 };
+
+// Add generateStaticParams function to pre-render all language paths
+export async function generateStaticParams() {
+  return languages.map((lang) => ({
+    lang: lang.code
+  }));
+}
 
 export default async function BlogPage({
   params
