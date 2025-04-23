@@ -137,7 +137,10 @@ export default async function Blog({
           })
         }}
       />
-      <div className="flex justify-between items-center mb-8">
+      <div className="flex">
+        <img src={post.metadata.image} alt={post.metadata.title}></img>
+      </div>
+      <div className="flex justify-between items-center my-8">
         <h1 className="title font-medium text-2xl tracking-tighter max-w-[650px]">
           {post.metadata.title}
         </h1>
@@ -150,6 +153,7 @@ export default async function Blog({
           </p>
         </Suspense>
       </div>
+
       <article
         className="prose dark:prose-invert"
         dangerouslySetInnerHTML={{ __html: post.source }}
