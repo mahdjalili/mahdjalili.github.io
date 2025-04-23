@@ -106,7 +106,6 @@ async function getAllPosts(dir: string, lang: string = defaultLanguage) {
 }
 
 export async function getBlogPosts(lang: string = defaultLanguage) {
-  // Validate the language
   if (!isValidLanguage(lang)) {
     lang = defaultLanguage;
   }

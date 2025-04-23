@@ -23,7 +23,6 @@ export default function LanguageSwitcher({
   const pathname = usePathname();
 
   const handleLanguageChange = (langCode: string) => {
-    // Replace the language part in the URL
     const newPath = pathname.replace(/\/blog\/[a-z]{2}/, `/blog/${langCode}`);
     router.push(newPath);
   };

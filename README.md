@@ -1,47 +1,92 @@
-<div align="center">
-<img alt="Portfolio" src="https://github.com/dillionverma/portfolio/assets/16860528/57ffca81-3f0a-4425-b31d-094f61725455" width="90%">
-</div>
+# Personal Portfolio Blog Template
 
-# Portfolio [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fdillionverma%2Fportfolio)
+A modern, fast, and SEO-friendly personal portfolio and blog template built with Next.js 14. This template is perfect for developers, writers, and content creators who want to share their thoughts and experiences through a beautiful and performant blog.
 
-Built with next.js, [shadcn/ui](https://ui.shadcn.com/), and [magic ui](https://magicui.design/), deployed on Vercel.
+## ✨ Features
 
-# Features
+- 🚀 Built with Next.js 14 and React 18
+- 💅 Styled with Tailwind CSS and Shadcn/UI components
+- 📱 Fully responsive design
+- 🌙 Dark mode support
+- 📝 MDX support for blog posts
+- 🔍 SEO optimized with next-sitemap
+- ⚡ Fast page loads and optimal performance
+- 🎨 Beautiful animations with Framer Motion
+- 📊 Syntax highlighting for code blocks
+- 🔄 Easy content management through MDX files
 
-- Setup only takes a few minutes by editing the [single config file](./src/data/resume.tsx)
-- Built using Next.js 14, React, Typescript, Shadcn/UI, TailwindCSS, Framer Motion, Magic UI
-- Includes a blog
-- Responsive for different devices
-- Optimized for Next.js and Vercel
+## 🛠️ Tech Stack
 
-# Getting Started Locally
+- [Next.js 14](https://nextjs.org/) - React framework
+- [React 18](https://react.dev/) - UI library
+- [TypeScript](https://www.typescriptlang.org/) - Type safety
+- [Tailwind CSS](https://tailwindcss.com/) - Styling
+- [Shadcn/UI](https://ui.shadcn.com/) - UI components
+- [Framer Motion](https://www.framer.com/motion/) - Animations
+- [MDX](https://mdxjs.com/) - Content writing
+- [next-sitemap](https://github.com/iamvishnusankar/next-sitemap) - SEO optimization
 
-1. Clone this repository to your local machine:
+## 🚀 Getting Started
+
+1. Clone this repository:
 
    ```bash
-   git clone https://github.com/dillionverma/portfolio
-   ```
-
-2. Move to the cloned directory
-
-   ```bash
+   git clone https://github.com/yourusername/portfolio.git
    cd portfolio
    ```
 
-3. Install dependencies:
+2. Install dependencies:
 
    ```bash
-   pnpm install
+   bun install
    ```
 
-4. Start the local Server:
+3. Start the development server:
 
    ```bash
-   pnpm dev
+   bun dev
    ```
 
-5. Open the [Config file](./src/data/resume.tsx) and make changes
+4. Open [http://localhost:8000](http://localhost:8000) in your browser
 
-# License
+## 📝 Content Management
 
-Licensed under the [MIT license](https://github.com/dillionverma/portfolio/blob/main/LICENSE.md).
+- Blog posts are written in MDX format
+- Place your blog posts in the `content` directory
+- Each post should have frontmatter with title, date, and description
+- Images can be stored in the `public` directory
+
+## 🎨 Customization
+
+- Edit the configuration in `src/data/resume.tsx` for personal information
+- Modify the theme in `tailwind.config.ts`
+- Customize components in the `src/components` directory
+- Update styles in `src/app/globals.css`
+
+## 📦 Build and Deploy
+
+Build the project:
+
+```bash
+bun build
+```
+
+Start the production server:
+
+```bash
+bun start
+```
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## 🤝 Contributing
+
+Contributions, issues, and feature requests are welcome! Feel free to check the [issues page](https://github.com/yourusername/portfolio/issues).
+
+## 🙏 Acknowledgments
+
+- [Shadcn/UI](https://ui.shadcn.com/) for the beautiful components
+- [Next.js](https://nextjs.org/) team for the amazing framework
+- [Tailwind CSS](https://tailwindcss.com/) for the utility-first CSS framework

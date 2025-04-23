@@ -6,7 +6,6 @@ import {
   languages
 } from '@/config/languages';
 import Link from 'next/link';
-import LanguageSwitcher from '@/components/LanguageSwitcher';
 import { notFound } from 'next/navigation';
 
 export const metadata = {
@@ -28,7 +27,6 @@ type BlogPost = {
   source: string;
 };
 
-// Add generateStaticParams function to pre-render all language paths
 export async function generateStaticParams() {
   return languages.map((lang) => ({
     lang: lang.code
@@ -42,7 +40,6 @@ export default async function BlogPage({
 }) {
   const { lang } = params;
 
-  // Validate language
   if (!isValidLanguage(lang)) {
     notFound();
   }
@@ -54,7 +51,6 @@ export default async function BlogPage({
       <BlurFade delay={BLUR_FADE_DELAY}>
         <div className="flex justify-between items-center mb-8">
           <h1 className="font-medium text-2xl tracking-tighter">blog</h1>
-          <LanguageSwitcher currentLang={lang} />
         </div>
       </BlurFade>
       {posts.length > 0 ? (
