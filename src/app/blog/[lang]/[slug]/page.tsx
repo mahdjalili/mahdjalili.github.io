@@ -9,7 +9,7 @@ import {
   languages,
   isValidLanguage
 } from '@/config/languages';
-import LanguageSwitcher from '@/components/LanguageSwitcher';
+import LanguageSwitcher from '@/components/language-switcher';
 
 type BlogPost = {
   metadata: {
