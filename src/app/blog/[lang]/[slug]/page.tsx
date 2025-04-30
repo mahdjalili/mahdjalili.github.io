@@ -7,7 +7,8 @@ import { Suspense } from 'react';
 import {
   defaultLanguage,
   languages,
-  isValidLanguage
+  isValidLanguage,
+  isRtl
 } from '@/config/languages';
 import LanguageSwitcher from '@/components/language-switcher';
 
@@ -114,7 +115,10 @@ export default async function Blog({
   }
 
   return (
-    <section id="blog">
+    <section
+      id="blog"
+      style={isRtl(lang) ? { direction: 'rtl' } : { direction: 'ltr' }}
+    >
       <script
         type="application/ld+json"
         suppressHydrationWarning
