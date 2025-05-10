@@ -33,12 +33,14 @@ export async function generateStaticParams() {
   }));
 }
 
-export default async function BlogPage({
-  params
-}: {
-  params: { lang: string };
-}) {
-  const { lang } = params;
+type Props = {
+  params: Promise<{
+    lang: string;
+  }>;
+};
+
+export default async function BlogPage({ params }: Props) {
+  const { lang } = await params;
 
   if (!isValidLanguage(lang)) {
     notFound();
