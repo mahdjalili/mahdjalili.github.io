@@ -101,7 +101,7 @@ export default async function Blog({
     lang: string;
   };
 }) {
-  const { slug, lang } = params;
+  const { slug, lang } = await params;
 
   // Validate language
   if (!isValidLanguage(lang)) {
