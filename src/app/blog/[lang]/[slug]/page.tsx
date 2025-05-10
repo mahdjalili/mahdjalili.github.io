@@ -24,6 +24,14 @@ type BlogPost = {
   source: string;
 };
 
+type Props = {
+  params: {
+    slug: string;
+    lang: string;
+  };
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+};
+
 export async function generateStaticParams() {
   // Get all posts from all languages
   const allPosts = await Promise.all(
@@ -42,13 +50,8 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({
   params
-}: {
-  params: {
-    slug: string;
-    lang: string;
-  };
-}): Promise<Metadata | undefined> {
-  const { slug, lang } = params;
+}: Props): Promise<Metadata | undefined> {
+  const { slug, lang } = await params;
 
   // Validate language
   if (!isValidLanguage(lang)) {
