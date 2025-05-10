@@ -94,14 +94,13 @@ export async function generateMetadata({
 }
 
 export default async function Blog({
-  params
+  params,
+  searchParams
 }: {
-  params: {
-    slug: string;
-    lang: string;
-  };
+  params: { slug: string; lang: string };
+  searchParams?: Record<string, string | string[] | undefined>;
 }) {
-  const { slug, lang } = await params;
+  const { slug, lang } = params;
 
   // Validate language
   if (!isValidLanguage(lang)) {
