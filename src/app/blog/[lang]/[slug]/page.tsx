@@ -29,7 +29,7 @@ type Props = {
     slug: string;
     lang: string;
   }>;
-  searchParams: { [key: string]: string | string[] | undefined };
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 };
 
 export async function generateStaticParams() {
@@ -98,6 +98,7 @@ export async function generateMetadata({
 
 export default async function Blog({ params, searchParams }: Props) {
   const { slug, lang } = await params;
+  const searchParamsObj = await searchParams;
 
   // Validate language
   if (!isValidLanguage(lang)) {
