@@ -1,0 +1,106 @@
+---
+title: 'The Past, Present, and Future of Web Components'
+publishedAt: '2024-03-20'
+summary: 'A comprehensive look at the evolution of Web Components, from their historical origins to their current state and future potential.'
+language: 'en'
+tags: ['webdev', 'html', 'javascript', 'webcomponents']
+series: 'Mastering Web Components'
+seriesOrder: 2
+draft: false
+---
+
+There is a lot of misinformation and misunderstanding surrounding Web Components. Many developers do not see their benefit or have misconceptions about what they can and cannot do. This series is intended to debunk those misrepresentations of this massively underappreciated set of tools.
+
+## The Past
+
+To fully master this powerful feature of the web platform one must understand the history and reasoning behind their implementation.
+
+### From Chaos to Co-Operation
+
+Web Components might seem like a recent trend, but their story goes back over the span of decades. Before React, Angular or even jQuery there was a much wilder time. Often referred to as the Wild West of the Web, I see this era more like the age of Feudalism with each browser vendor acting as their own virtual kingdom.
+
+Through the 1990s and into the early 2000s, browsers were locked in a fierce competition. Netscape->Firebird->Firefox, Internet Explorer, Opera, and later Safari all vied for dominance, each pushing their own proprietary features and behaviors. Developers were left picking up the slack by writing clunky workarounds just to make websites behave consistently across platforms.
+
+This era (known as the browser wars) fractured the web. Though the World Wide Web Consortium (aka the W3C) worked hard to standardize HTML and CSS, progress was slow and not all browser vendors followed their lead.
+
+So engineers from Mozilla, Opera, and Apple broke away to form a new group in 2004: the Web Hypertext Application Technology Working Group, or WHATWG. Their goal was to evolve the web platform based on real-world usage and need. That effort led to HTML5 and planted the seeds for what we now call Web Components.
+
+By this point in time, Facebook was a brand new university project and Google had just released GMail (available by invitation only) with no indication that they intended to break into the browser vendor scene. This happened 4 years later in 2008 when Chrome went public.
+
+### The Origins of Shadow DOM
+
+One of the earliest glimpses of component-style architecture came from Mozilla. The UI for Netscape and later Firefox were built on a pair of proprietary technologies:
+
+- XUL (XML User Interface Language), and
+- XBL (XML Binding Language).
+
+These tools let engineers define reusable widgets (buttons, panels, menus, etc) with custom behavior and internal styling. In other words, early components. But they weren't standardized, and other browsers never adopted them.
+
+Around the time Mozilla was working on XBL2, Google's engineers were developing Chrome Browser and ran into similar problems. They needed a way to structure element internals (like <video> player controls) without exposing them to developers or letting page styles bleed in. Their solution was Shadow DOM, a browser-native mechanism for true encapsulation. At first, this was used only for browser widgets. But the power it offered made it a prime candidate for something more ambitious.
+
+### From Internal Tooling to Developer Empowerment
+
+Web Components as we know them now really began when these low-level browser features were proposed as developer-facing APIs. In 2011 Alex Russell made a historic presentation at Fronteers Conference. He demonstrated how Chrome Team was working to put the power of Shadow DOM into the hands of front-end web developers. Standardization efforts kicked off under the guidance of WHATWG and W3C collaboration and browser vendors worked together to agree on consistent, interoperable implementations.
+
+## The Present
+
+Now that you know what led to the inception of Web Components. We must explore the evolution that brought them to their current state.
+
+### The Rise of Modern Frameworks
+
+Today, Web Components are fully supported in all modern browsers. But this did not happen overnight. Meanwhile, the world kept on turning and businesses needed reliable ways to modularize their applications. Dozens of frameworks have been invented, adopted, and abandoned over the last decade or so. Each one sought to fill gaps in the coverage of the Web APIs.
+
+While many frameworks developed a hardcore following, there was one standout player in this field: React. It's popularity is undeniable but this toolchain evolved independently from the core web platform, creating its own ecosystem and abstractions that have never aligned with the standards-based evolution of the web. This parallel development is reminiscent of the old browser wars. Except for one key difference: Meta is not a browser vendor.
+
+### Two Steps Forward, One Step Back
+
+React contains many features that appear on the surface to provide the same functionality that Web Components offer but rely on non-standard extensions like JSX to accomplish this behavior. These features are added as a layer on top of the web platform and often their implementations have gone against the path laid out by the WHATWG.
+
+The last time a proprietary technology competed against the spec we ended up with Flash. Many younger readers likely have never even heard of this but we old school pros remember rebuilding half the web to get rid of it. Today there is almost no evidence that Flash ever existed on the web, even though it only officially reached it's end-of-life a few years ago.
+
+### Perseverance Pays Off
+
+The road that led Web Components to their current state was not a smooth one. Many proposals were made, tested, rejected and revamped to get to this point. The functionality that is now widely available across all modern browsers and devices took many years to get right.
+
+For those of us who have been following this path since the beginning it is a time to rejoice because our dreams have finally come true. Shadow DOM and its associated APIs have opened up a whole new world of component design that is only just starting to show it's true potential.
+
+## The Future
+
+Web Components have finally matured, but the real story they will tell is just beginning. With the core APIs now widely supported, we're entering a new phase of growth. One not just of adoption, but innovation.
+
+### Supporting the Standards
+
+A wave of lightweight frameworks, libraries, and tooling is emerging that build on top of Web Components to enhance the developer experience. Two standout projects leading this charge are:
+
+- Lit by Google: A minimal library that works on concepts similar to React. Component libraries based on Lit, like Shoelace, are also taking off in popularity.
+
+- FAST by Microsoft: A thin abstraction layer used as the basis of Fluent UI, a set of themeable, accessible components aimed at enterprise-level UI development.
+
+Unlike legacy frameworks that create their own abstractions, both Lit and FAST embrace the platform, extending Web Components in standards-friendly ways.
+
+### Big Names Making Big Changes
+
+Major companies like Github, Reddit, Salesforce, Adobe, and many others have adopted or are transitioning toward Web Component based architectures.
+
+The momentum is shifting. Not because of hype, but because of guaranteed longevity, interoperability, and performance. The exact same things React and friends originally promised, but now available without the use of third-party abstractions.
+
+### One Piece of The Puzzle
+
+Web Components aren't a silver bullet. Alone they don't provide everything that a framework does. They are just one part of a larger set of tools that is steadily moving toward richer, more powerful web applications. Web apps today have incredible features and flexibility that once belonged solely to the domain of native apps.
+
+Here's a look at some of the emerging standards that will shape the next generation of web development:
+
+- Declarative Shadow DOM: Enables SSR without hydration.
+- WebGPU: High-performance compute and rendering in the browser.
+- WebUSB and WebSerial: Direct access to connected devices.
+- WebSocketStream: An efficient real-time streaming interface.
+- Sanitizer API: For safe injection of user-generated content.
+- View Transitions: To animate DOM state transitions.
+
+Individually, each of these is a leap forward. Together, they signal a shift toward a post-framework era where the web platform is finally powerful enough to stand on its own, and modern apps can be built declaratively, securely, and efficiently with only minimal tooling. All of the newest features are enhancements. The groundwork has been laid, it's time to start building up.
+
+### The Platform Persists
+
+Web Components are not a trend or the latest fad. They are the natural evolution of what made the web great in the first place: openness, modularity, and progressive enhancement. It's not just about what they do, but about how they blend seamlessly into the fabric of the web like they were always meant to be there.
+
+With a foundation of tools like Web Components, ES Modules and a ton of mature as well as up-and-coming APIs, the future of the web looks bright indeed! In the past, we needed frameworks to fill the gaps. Today, those gaps are closing fast. And tomorrow, we might just look back on the framework era the way we now remember the days of Flash: As a wild adventure on the frontier that only those who were there could truly understand.
