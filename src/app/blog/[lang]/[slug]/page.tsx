@@ -137,7 +137,9 @@ export default async function Blog({ params }: Props) {
         }}
       />
       <div className="flex">
-        <img src={post.metadata.image} alt={post.metadata.title}></img>
+        {post.metadata.image && (
+          <img src={post.metadata.image} alt={post.metadata.title}></img>
+        )}
       </div>
       <div className="flex justify-between items-center my-8">
         <h1 className="title font-medium text-2xl tracking-tighter max-w-[650px]">
