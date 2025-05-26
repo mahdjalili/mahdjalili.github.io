@@ -113,6 +113,7 @@ export default async function Blog({ params }: Props) {
     <section
       id="blog"
       style={isRtl(lang) ? { direction: 'rtl' } : { direction: 'ltr' }}
+      dir={isRtl(lang) ? 'rtl' : 'ltr'}
     >
       <script
         type="application/ld+json"
