@@ -2,15 +2,6 @@
 
 import { languages, defaultLanguage } from '@/config/languages';
 import { usePathname, useRouter } from 'next/navigation';
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-  SelectLabel
-} from '@/components/ui/select';
 
 type LanguageSwitcherProps = {
   currentLang?: string;
@@ -22,26 +13,23 @@ export default function LanguageSwitcher({
   const router = useRouter();
   const pathname = usePathname();
 
-  const handleLanguageChange = (langCode: string) => {
+  const handleLanguageChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const langCode = e.target.value;
     const newPath = pathname.replace(/\/blog\/[a-z]{2}/, `/blog/${langCode}`);
     router.push(newPath);
   };
 
   return (
-    <Select value={currentLang} onValueChange={handleLanguageChange}>
-      <SelectTrigger className="w-[100px]">
-        <SelectValue placeholder="Select language" />
-      </SelectTrigger>
-      <SelectContent>
-        <SelectGroup>
-          <SelectLabel>Languages</SelectLabel>
-          {languages.map((language) => (
-            <SelectItem key={language.code} value={language.code}>
-              {language.name}
-            </SelectItem>
-          ))}
-        </SelectGroup>
-      </SelectContent>
-    </Select>
+    <select
+      value={currentLang}
+      onChange={handleLanguageChange}
+      className="w-[100px] px-2 py-1 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
+    >
+      {languages.map((language) => (
+        <option key={language.code} value={language.code}>
+          {language.name}
+        </option>
+      ))}
+    </select>
   );
 }
