@@ -88,7 +88,7 @@ pre [data-line] {
 }
 
 code {
-  @apply text-sm md:text-base !leading-loose;
+  @apply text-sm md:text-base !leading-loose overflow-x-auto;
   direction: ltr;
 }
 

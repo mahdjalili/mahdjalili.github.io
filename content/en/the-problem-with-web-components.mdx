@@ -1,0 +1,80 @@
+---
+title: 'The Real Problem with Web Components'
+publishedAt: '2025-05-21'
+summary: 'Why using Web Components is challenging and how to use them correctly.'
+language: 'en'
+tags: ['webdev', 'html', 'webcomponents']
+series: 'Mastering Web Components'
+seriesOrder: 2
+draft: false
+---
+
+The real problem with Web Components is simple: There is no clearly defined road to success for using them. No singular go-to guide. Up until recently the standard has been in flux. And in some ways, still is. But the core APIs have stabilized, and many developers are jumping into the scene.
+
+However, it can be hard for someone who hasn't followed the evolution of this standard to know where to begin. Learning the concepts necessary to use this powerful set of tools is a challenge. Many articles exist on this subject, but the real useful information is scattered, buried among outdated tutorials demonstrating experimental features that have changed over the years.
+
+So, if you have been wondering how to get to started crafting your own components from scratch, you are reading the right article.
+
+## The Anatomy of a Web Component
+
+Let's begin with the fundamentals. The key aspect of Web Components that make them so useful is the ability to create Custom HTML Elements. You have probably also heard of HTML Templates and Shadow DOM. These additional APIs give us power over a browser's native encapsulation methods, but they are not essential to understand just yet. Before we dive into those advanced topics, let's explore how browsers handle Custom Elements.
+
+## Understanding Custom Elements
+
+When an HTML document is parsed, element instances are created based on the tags found. Standard elements like <div>, <p>, or <button> are well-known to browsers. But what happens when you try to create your own tag?
+
+<component></component>
+
+Browsers can't go throwing a fit over every tag they don't recognize. And they can't just drop data that was meant to be delivered to the user. So they initialize these undescribed tags as instances of HTMLUnknownElement and render their contents as plain text or even continue to parse the subtree of nested HTML. This behavior is what underlies the ability to define our own elements.
+
+## Defining a Custom Element
+
+HTML has a well defined set of tags. This set doesn't change very often. We got quite a few new semantic elements when HTML5 was released and not many since. In the past, we could only hope for new elements. Then we made complex abstractions out of <div> and other elements. Now, we can streamline those abstractions into re-usable components that add meaning to our document. But the HTML root namespace needs to be left available for future built-in tags. As a result, if you want to create your own tag, it must contain at least one hyphen -.
+
+<my-element>Hello World</my-element>
+<my-next-element>
+
+  <span> This </span>
+  <span> is </span>
+  <span> a </span>
+  <span> test </span>
+</my-next-element>
+
+By doing this, we have told the browser that this is NOT an unknown element anymore. We are taking responsibility for it. This element will instead be parsed as a generic inline HTMLElement, not unlike a <span>.
+
+You can target them with CSS, just like any other element.
+
+```css
+my-element {
+  display: block;
+  padding: 1em;
+  color: black;
+  background: green;
+}
+
+my-next-element {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-around;
+}
+```
+
+You can query them with JS, just like any other element.
+
+```javascript
+const myElement = document.querySelector('my-element');
+console.log(myElement instanceof HTMLElement); // true
+
+const myNextElement = document.querySelector('my-next-element');
+console.log(myNextElement.children); // HTMLCollection(4)
+```
+
+All of the base HTMLElement interface features are available, like events.
+
+```javascript
+myElement.addEventListener('click', (event) => {
+  console.log(event.target);
+});
+```
+
+But we've only just scratched the surface of the world of Web Components.
