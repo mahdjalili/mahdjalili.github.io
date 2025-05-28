@@ -19,28 +19,31 @@ So, if you have been wondering how to get to started crafting your own component
 
 Let's begin with the fundamentals. The key aspect of Web Components that make them so useful is the ability to create Custom HTML Elements. You have probably also heard of HTML Templates and Shadow DOM. These additional APIs give us power over a browser's native encapsulation methods, but they are not essential to understand just yet. Before we dive into those advanced topics, let's explore how browsers handle Custom Elements.
 
-## Understanding Custom Elements
+### Understanding Custom Elements
 
-When an HTML document is parsed, element instances are created based on the tags found. Standard elements like <div>, <p>, or <button> are well-known to browsers. But what happens when you try to create your own tag?
+When an HTML document is parsed, element instances are created based on the tags found. Standard elements like `<div>`, `<p>`, or `<button>` are well-known to browsers. But what happens when you try to create your own tag?
 
+```html
 <component></component>
+```
 
 Browsers can't go throwing a fit over every tag they don't recognize. And they can't just drop data that was meant to be delivered to the user. So they initialize these undescribed tags as instances of HTMLUnknownElement and render their contents as plain text or even continue to parse the subtree of nested HTML. This behavior is what underlies the ability to define our own elements.
 
 ## Defining a Custom Element
 
-HTML has a well defined set of tags. This set doesn't change very often. We got quite a few new semantic elements when HTML5 was released and not many since. In the past, we could only hope for new elements. Then we made complex abstractions out of <div> and other elements. Now, we can streamline those abstractions into re-usable components that add meaning to our document. But the HTML root namespace needs to be left available for future built-in tags. As a result, if you want to create your own tag, it must contain at least one hyphen -.
+HTML has a well defined set of tags. This set doesn't change very often. We got quite a few new semantic elements when HTML5 was released and not many since. In the past, we could only hope for new elements. Then we made complex abstractions out of `<div>` and other elements. Now, we can streamline those abstractions into re-usable components that add meaning to our document. But the HTML root namespace needs to be left available for future built-in tags. As a result, if you want to create your own tag, it must contain at least one hyphen -.
 
+```html
 <my-element>Hello World</my-element>
 <my-next-element>
-
   <span> This </span>
   <span> is </span>
   <span> a </span>
   <span> test </span>
 </my-next-element>
+```
 
-By doing this, we have told the browser that this is NOT an unknown element anymore. We are taking responsibility for it. This element will instead be parsed as a generic inline HTMLElement, not unlike a <span>.
+By doing this, we have told the browser that this is NOT an unknown element anymore. We are taking responsibility for it. This element will instead be parsed as a generic inline HTMLElement, not unlike a `<span>`.
 
 You can target them with CSS, just like any other element.
 
@@ -78,3 +81,154 @@ myElement.addEventListener('click', (event) => {
 ```
 
 But we've only just scratched the surface of the world of Web Components.
+
+## Registering a Custom Element
+
+To transform our generic element into something meaningful, we need to register it with the browser.
+
+```javascript
+class MyElement extends HTMLElement {
+  constructor() {
+    super();
+  }
+}
+
+customElements.define('my-element', MyElement);
+```
+
+By itself, the example above does not provide any benefit beyond what we have already done through markup alone. But it sets up the foundation of our new modular, reusable component. Before Custom Elements existed, we would have to: Wait for the DOM to be fully parsed, query it to select all instances of some specific element, and wrap our functionality around those elements using external scripting.
+
+With Custom Elements, we can now embed that logic directly into the element's definition. We no longer have to go searching for the elements in the DOM. Every time our element is encountered, it will automatically use our class that we have defined for it.
+
+## Harnessing The Power
+
+Registering our element gives us the flexibility to do all sorts wizardry. We can parse the element for children, we can detect new children, we can add our own children. We can manipulate the element however we want. It really depends on your use-case. Every component is different. The possibilities are endless.
+
+But we have to start somewhere. So let's build a simple example. We will create a `<copy-text>` element. When this element is clicked, it's text content will be copied to the clipboard.
+
+We could accomplish this with some JavaScript targeting a `<span>`, but having a dedicated element makes the intention clear in our markup. It also lets us create unique rules in our stylesheet that do not require excessive class or ID scoping. And we don't have to change any code to add more instances of our element.
+
+<p
+  class="codepen"
+  data-height="300"
+  data-default-tab="html,result"
+  data-slug-hash="oggOVgq"
+  data-pen-title="Copy Text Element"
+  data-user="besworks-dev"
+  style="height: 300px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;"
+>
+  <span>
+    See the Pen{' '}
+    <a href="https://codepen.io/besworks-dev/pen/oggOVgq">Copy Text Element</a>{' '}
+    by Russell Beswick (
+    <a href="https://codepen.io/besworks-dev">@besworks-dev</a>) on{' '}
+    <a href="https://codepen.io">CodePen</a>.
+  </span>
+</p>
+<script async src="https://public.codepenassets.com/embed/index.js"></script>
+
+Notice how I have used `#private` methods inside the class definition. This allows us to protect the internal functionality of our component so that it cannot be manipulated from the outside. This will become more important later when we get into encapsulation. For now, we've created a component that lives entirely in the root document. The page's stylesheet fully covers the element. Its entire structure can be accessed from the document context.
+
+## Reusing Custom Elements
+
+A Custom Element only needs to be initialized once per browsing context. Including our component definition either as an inline or fetched script is enough to let us use it as many times as we want, anywhere we want.
+
+```html
+<!DOCTYPE html>
+<title>Copy Text Element Example</title>
+<link rel="stylesheet" href="theme.css" />
+<script type="module" src="copy-text.js"></script>
+<div>
+  <label> Example: </label>
+  <copy-text title="Copy Your API Key">
+    A_REALLY_LONG_API_KEY_OR_WHATEVER
+  </copy-text>
+</div>
+<div>
+  <label> Example 2: </label>
+  <copy-text> Some more text to copy </copy-text>
+</div>
+```
+
+If we export the class from our module, we can also import it into other scripts and create custom instances.
+
+```javascript
+// at end of copy-text.js
+export { CopyTextElement };
+
+// in another component
+import { CopyTextElement } from './copy-text.js';
+const copyText = new CopyTextElement();
+```
+
+However, this is not necessary if you are 100% confident that your module is already loaded. In that case we can simply create an instance like any other element. If needed, we can also get our class from the element registry.
+
+```javascript
+const copyText = document.createElement('copy-text');
+const CopyTextElement = customElements.get('copy-text');
+const anotherCopy = new CopyTextElement();
+```
+
+If you can't control the load order of your components, you can also wait for your element to be registered.
+
+```javascript
+customElements.whenDefined('copy-text').then((CopyTextElement) => {
+  const copyText = new CopyTextElement();
+});
+```
+
+## We Have to go Deeper
+
+So far we've only really discussed how a Custom Element behaves on it's own. Now we need to handle an element that contains a subtree. In a legacy web app, we would select our collection of elements by targeting the host element. With a Custom Element, we can make the element itself be responsible for it's own children. The best way to handle this is with a Mutation Observer.
+
+<p
+  class="codepen"
+  data-height="300"
+  data-default-tab="html,result"
+  data-slug-hash="qEEwwje"
+  data-pen-title="ChildList Mutation Observer"
+  data-user="besworks-dev"
+  style="height: 300px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;"
+>
+  <span>
+    See the Pen{' '}
+    <a href="https://codepen.io/besworks-dev/pen/qEEwwje">
+      ChildList Mutation Observer
+    </a>{' '}
+    by Russell Beswick (
+    <a href="https://codepen.io/besworks-dev">@besworks-dev</a>) on{' '}
+    <a href="https://codepen.io">CodePen</a>.
+  </span>
+</p>
+<script async src="https://public.codepenassets.com/embed/index.js"></script>
+
+We set up the initial event handlers, then dynamically add or remove them from any elements that enter or leave the subtree. Notice we initialize everything in the constructor. While many tutorials focus on `connectedCallback` as the most important part of the lifecycle, this isn't necessarily the case. The constructor is the perfect place to set up our component's core functionality.
+
+The main reason for this is so that our element can handle children immediately. We don't wait until it is connected to the DOM. This allows us to create instances of this element through code that are already configured before they are added to the document. In this example we only added click handlers. But we can use this for much more complex logic if necessary. Rather than delaying rendering when inserted, our element is ready to go right away.
+
+```javascript
+const clickHander = document.createElement('click-handler');
+
+['test', 'another', 'more'].forEach((label) => {
+  const span = document.createElement('span');
+  span.textContent = label;
+  clickHandler.append(span);
+});
+
+requestAnimationFrame(() => {
+  document.append(clickHandler);
+});
+```
+
+## Elegant and Flexible
+
+We've seen how Custom Elements can enable reusable functionality in a simple, modular way. No build tools, or framework dependencies. Just meaningful markup, classic CSS, and vanilla JS. Web Components that work anywhere. But all we've done so far is streamline the methods we already had available. There is much more that this toolkit has to offer.
+
+In the next article, we'll explore how HTML Templates can let us easily upgrade simple, declarative, definitions into complex markup structures. We'll also cover how to make the most of Shadow DOM to fully or selectively encapsulate our components.
+
+Until then, try building your own Custom Elements. Start simple. Focus on solving real problems. Here's a few ideas to get the creative juices flowing:
+
+- `<format-number>` : Display numbers with specific formatting (currency, decimals, etc.)
+- `<tool-tip>` : Show some popup descriptive text when hovered or tapped.
+- `<marquee-text>` : A throwback to one of the earliest non-standard elements.
+- `<nav-bar>` : A website menu that automatically highlights the active route.
