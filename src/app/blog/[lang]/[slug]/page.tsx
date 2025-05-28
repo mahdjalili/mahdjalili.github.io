@@ -11,6 +11,7 @@ import {
   isRtl
 } from '@/config/languages';
 import LanguageSwitcher from '@/components/language-switcher';
+import { isDev } from '@/lib/utils';
 
 type BlogPost = {
   metadata: {
@@ -146,7 +147,7 @@ export default async function Blog({ params }: Props) {
         <h1 className="title font-medium text-2xl tracking-tighter max-w-[650px]">
           {post.metadata.title}
         </h1>
-        <LanguageSwitcher currentLang={lang} />
+        {isDev() && <LanguageSwitcher currentLang={lang} />}
       </div>
       <div className="flex justify-between items-center mt-2 mb-8 text-sm max-w-[650px]">
         <div className="flex justify-center items-center gap-4">

@@ -42,3 +42,9 @@ export function calculateReadingTime(content: string): number {
   const minutes = Math.ceil(words / wordsPerMinute);
   return minutes;
 }
+
+export function isDev() {
+  return (
+    process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test'
+  );
+}
