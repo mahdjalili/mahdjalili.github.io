@@ -75,6 +75,12 @@ export const DATA = {
         icon: Icons.x,
         navbar: true
       },
+      Telegram: {
+        name: 'Telegram',
+        url: 'https://t.me/mahdjalili',
+        icon: Icons.telegram,
+        navbar: false
+      },
       Youtube: {
         name: 'Youtube',
         url: 'https://www.youtube.com/@mahdjalili',
