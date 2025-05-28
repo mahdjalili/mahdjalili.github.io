@@ -21,7 +21,11 @@ type BlogPost = {
     publishedAt: string;
     summary: string;
     image?: string;
+    tags?: string[];
+    series?: string;
+    seriesOrder?: number;
     language?: string;
+    draft?: boolean;
   };
   slug: string;
   source: string;
@@ -57,6 +61,7 @@ export default async function BlogPage({ params }: Props) {
       </BlurFade>
       {posts.length > 0 ? (
         posts
+          .filter((post) => post.metadata.draft !== true)
           .sort((a, b) => {
             if (
               new Date(a.metadata.publishedAt) >

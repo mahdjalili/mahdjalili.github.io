@@ -9,14 +9,6 @@ import rehypeRaw from 'rehype-raw';
 import { unified } from 'unified';
 import { defaultLanguage, isValidLanguage } from '@/config/languages';
 
-type Metadata = {
-  title: string;
-  publishedAt: string;
-  summary: string;
-  image?: string;
-  language?: string;
-};
-
 function getMDXFiles(dir: string) {
   return fs.readdirSync(dir).filter((file) => path.extname(file) === '.mdx');
 }
