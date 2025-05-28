@@ -1,0 +1,470 @@
+---
+title: 'قدرت مخفی Web Components'
+publishedAt: '2025-05-31'
+summary: 'چطور می‌تونیم با استفاده از Web Components، برنامه‌هایی بسازیم که قابل نگهداری و قابل استفاده مجدد هستن.'
+language: 'fa'
+tags: ['webdev', 'html', 'webcomponents']
+series: 'Mastering Web Components'
+seriesOrder: 4
+draft: true
+---
+
+هفته‌ی پیش درباره‌ی یه سری «عنصر سفارشی» ساده صحبت کردیم که مستقیم توی سند اصلی HTML قرار می‌گرفتن. این روش باعث شد راحت‌تر بتونیم منطق برنامه‌مونو به صفحه‌مون وصل کنیم.
+
+حالا امروز می‌خوایم ببینیم چطور می‌تونیم با کمک قالب‌های HTML و Shadow DOM مؤلفه‌هایی بسازیم که هم پیچیده‌ترن، هم قابل استفاده‌ی مجدد.
+
+## وقتی بخوایم کارو پیچیده‌تر کنیم
+
+عنصر `<copy-text>` رو یادتونه؟ کارشو خوب انجام می‌داد، ولی خیلی ساده بود. بعضی وقتا همین سادگی کاملاً کافیه. ولی حالا فرض کن بخوایم به این عنصر یه دکمه اضافه کنیم که وقتی روش کلیک شد، متن رو کپی کنه. برای این کار باید کلی کد HTML بهش اضافه کنیم:
+
+```html
+<copy-text>
+  <span class="content">یه متنی برای کپی</span>
+  <button>
+    <img src="copy.svg" />
+    <span>کپی</span>
+  </button>
+</copy-text>
+```
+
+ولی با این کار اون سادگی تمیز و مرتب اولیه رو از دست دادیم. دیگه نمی‌تونیم فقط با یه تگ ساده متن رو بذاریم توش؛ حالا باید هر جا خواستیم از این استفاده کنیم، این تیکه‌ی کامل کد رو کپی و پیست کنیم. این هم از نظر حجم کد به‌صرفه نیست، هم کار کردن باهاش برای توسعه‌دهنده دردسر داره.
+
+می‌تونیم این قضیه رو با ساختن اون ساختار HTML داخل خود کلاس جاوااسکریپتی عنصر، راحت‌تر کنیم:
+
+```javascript
+class CopyTextElement extends HTMLElement {
+  constructor() {
+    super();
+    this.#configure();
+  }
+
+  #configure() {
+    const fragment = document.createDocumentFragment();
+    const content = document.createElement('span');
+    const button = document.createElement('button');
+    const buttonIcon = document.createElement('img');
+    const buttonLabel = document.createElement('span');
+
+    content.className = 'content';
+    content.textContent = this.textContent;
+    buttonIcon.src = 'copy.svg';
+    buttonLabel.textContent = 'کپی';
+    button.addEventListener('click', () => this.#copyText());
+
+    button.append(buttonIcon, buttonLabel);
+    fragment.append(content, button);
+
+    this.replaceChildren(fragment);
+  }
+
+  #copyText() {
+    const text = this.querySelector('span.content').textContent;
+    navigator.clipboard.writeText(text);
+  }
+}
+
+customElements.define('copy-text', CopyTextElement);
+```
+
+با این کار دوباره می‌تونیم از همون استفاده‌ی ساده‌ی اولیه‌مون بهره ببریم:
+
+```html
+<copy-text>یه متنی برای کپی</copy-text>
+```
+
+اما حالا یه مشکلی پیش میاد: ساختار HTML این عنصر دیگه با یه نگاه معلوم نیست. طراح نمی‌دونه دقیقاً این عنصر از چی تشکیل شده یا چطوری باید براش استایل بنویسه.
+
+اگه تنها کار می‌کنی شاید مشکلی نباشه، ولی توی یه تیم، ممکنه یه طراح باشه که جاوااسکریپت بلد نباشه. اون وقت یا باید ازت کمک بگیره، یا بره تو ابزارهای مرورگر و عنصر رو بررسی کنه تا بفهمه چطوریه.
+
+برای یه عنصر شاید سخت نباشه، ولی اگه با یه اپلیکیشن پیچیده سروکار داشته باشی که کلی عنصر سفارشی داره، این کار خیلی وقت‌گیر، خسته‌کننده و حتی غیرقابل مدیریت می‌شه.
+
+## نجات با Template‌ها
+
+خوشبختانه یه راه بهتر برای انجام این کار وجود داره. ما می‌تونیم از HTML Template استفاده کنیم تا ساختار موردنظرمون رو به‌صورت اعلانی (declarative) تعریف کنیم، نه اینکه با کدنویسی دستی بسازیمش.
+
+```html
+<template id="copy-text-structure">
+  <span class="content">placeholder</span>
+  <button>
+    <img src="copy.svg" />
+    <span>Copy</span>
+  </button>
+</template>
+
+<copy-text>Some text to copy</copy-text>
+<copy-text>Different Text</copy-text>
+<copy-text>More Text</copy-text>
+```
+
+حالا می‌تونیم منطق عنصرمون رو طوری تغییر بدیم که به‌جای ساختن دستی HTML با جاوااسکریپت، بیاد از این template کپی بگیره:
+
+```javascript
+class CopyTextElement extends HTMLElement {
+  constructor() {
+    super();
+    this.#configure();
+  }
+
+  #configure() {
+    const template = document.querySelector('template#copy-text-structure');
+    const structure = template.content.cloneNode(true);
+    const content = structure.querySelector('span.content');
+    const button = structure.querySelector('button');
+
+    content.textContent = this.textContent;
+    button.addEventListener('click', () => this.#copyText());
+
+    this.replaceChildren(structure);
+  }
+
+  #copyText() {
+    const text = this.querySelector('span.content').textContent;
+    navigator.clipboard.writeText(text);
+  }
+}
+
+customElements.define('copy-text', CopyTextElement);
+```
+
+برای اینکه بتونیم به این عنصر استایل بدیم، فقط کافیه توی CSS، اون بخش‌های داخل template رو که داخل عنصر سفارشی‌مون هستن، هدف قرار بدیم:
+
+```css
+copy-text {
+  display: inline-block;
+  background: dimgrey;
+  border: 1px solid black;
+  border-radius: 0.2em;
+}
+
+copy-text span.content {
+  padding: 0.5em;
+  font-family: monospace;
+}
+
+copy-text button {
+  border: 0;
+  background: dodgerblue;
+  cursor: pointer;
+}
+
+copy-text button:hover {
+  background: skyblue;
+}
+```
+
+حالا اگه همه‌ی اینا رو کنار هم بذاری و یه کم هم بهش رسیدگی و زیباسازی بدی، یه چیز خوشگل و مرتب مثل این درمیاد:
+
+<p
+  class="codepen"
+  data-height="300"
+  data-default-tab="html,result"
+  data-slug-hash="pvJoVMN"
+  data-pen-title="HTML Template Example"
+  data-user="besworks-dev"
+  style="height: 300px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;"
+>
+  <span>
+    See the Pen{' '}
+    <a href="https://codepen.io/besworks-dev/pen/pvJoVMN">
+      HTML Template Example
+    </a>{' '}
+    by Russell Beswick (
+    <a href="https://codepen.io/besworks-dev">@besworks-dev</a>) on{' '}
+    <a href="https://codepen.io">CodePen</a>.
+  </span>
+</p>
+<script async src="https://public.codepenassets.com/embed/index.js"></script>
+
+## جداسازی وظایف (Separation of Concerns)
+
+روشی که توی بخش قبل گفتیم، خیلی خوبه وقتی که بخوای کل استایل و کنترل مؤلفه‌هاتو از همون صفحه‌ی میزبان (host page) انجام بدی.
+
+اما بعضی وقتا، وقتی خودت سازنده‌ی یه کامپوننت هستی، ممکنه بخوای مطمئن بشی که ساختار و استایلت از بیرون دستکاری یا خراب نمی‌شن. یعنی نمی‌خوای استایل‌هایی که تو صفحه‌ی میزبان هستن، ناخواسته رو مؤلفه‌ت تأثیر بذارن.
+
+برای اینکه این کار رو انجام بدیم، باید از Shadow DOM استفاده کنیم تا ساختارمون رو داخل یه محیط ایزوله قرار بدیم. هنوز از همون Template قبلی استفاده می‌کنیم، ولی فرقش اینه که دیگه محتوا رو مستقیم جایگزین نمی‌کنیم. در عوض، محتوا رو از بیرون می‌گیریم و توی ساختار امن خودمون ازش استفاده می‌کنیم.
+
+```javascript
+class CopyTextElement extends HTMLElement {
+  #shadowRoot;
+
+  constructor() {
+    super();
+    this.#configure();
+  }
+
+  #configure() {
+    this.#shadowRoot = this.attachShadow({ mode: 'closed' });
+    const template = document.querySelector('template#copy-text-structure');
+    const structure = template.content.cloneNode(true);
+    const content = structure.querySelector('span.content');
+    const button = structure.querySelector('button');
+
+    content.textContent = this.textContent;
+    button.addEventListener('click', () => this.#copyText());
+
+    this.#shadowRoot.append(structure);
+  }
+
+  #copyText() {
+    const text = this.textContent;
+    navigator.clipboard.writeText(text);
+  }
+}
+
+customElements.define('copy-text', CopyTextElement);
+```
+
+اما اگه اینو امتحان کنی، می‌بینی که استایل‌هایی که قبلاً نوشتیم، دیگه روی مؤلفه‌مون اعمال نمی‌شن. چرا؟ چون استایل‌هایی که برای copy-text نوشته بودیم فقط به تگ اصلی می‌خورن، ولی الان بچه‌هاش توی Shadow DOM هستن و دیگه از بیرون قابل دسترسی نیستن.
+
+برای اینکه استایلمون رو هم ایزوله کنیم و فقط روی مؤلفه‌ی خودمون اثر بذاره، باید CSS رو ببریم داخل همون Template و یه کم تغییرش بدیم.
+برای اینکه خود عنصر میزبان (host element) رو هدف بگیریم، از `:host` استفاده می‌کنیم. دیگه لازم نیست بگیم "بچه‌های copy-text"، چون همه‌چی داخل خودش تعریف شده.
+
+```html
+<template id="copy-text-structure">
+  <style>
+    :host {
+      display: inline-flex;
+      align-items: stretch;
+      background: dimgrey;
+      border: 1px solid black;
+      border-radius: 0.2em;
+    }
+
+    span.content {
+      margin: 0.5em;
+      font-family: monospace;
+    }
+
+    button {
+      display: flex;
+      flex-flow: row nowrap;
+      align-items: center;
+      gap: 0.2em;
+      border: 0;
+      background: dodgerblue;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: skyblue;
+    }
+
+    button img {
+      height: 1em;
+    }
+  </style>
+  <span class="content">placeholder</span>
+  <button>
+    <img src="copy.svg" />
+    <span>Copy</span>
+  </button>
+</template>
+```
+
+حالا که هم ساختار و هم استایل داخل Shadow DOM قرار گرفتن، دیگه استایل‌های بیرونی نمی‌تونن تأثیری روش بذارن. هر چی نوشتیم فقط روی خود کامپوننتمون اعمال می‌شه.
+این ممکنه دقیقاً همون چیزی باشه که می‌خوای، ولی شاید هم بخوای یه مقدار امکان شخصی‌سازی به کاربر بدی.
+
+از اونجایی که ما از shadowRoot بسته (closed) استفاده کردیم، ساختار داخلی از بیرون دسترسی‌پذیر نیست.
+برای اینکه به صورت محدود اجازه بدیم یه‌سری استایل از بیرون اعمال بشن، یه سری گزینه داریم.
+
+### استفاده از کلاس‌های داخلی
+
+ساده‌ترین راهش اینه که اجازه بدیم کاربر با گذاشتن کلاس روی تگ اصلی، حالت یا تم مؤلفه رو تغییر بده. مثلاً:
+
+```css
+:host(.alternate) button {
+  background: red;
+}
+
+:host(.alternate) button:hover {
+  background: salmon;
+}
+```
+
+حالا فقط کافیه این کلاس رو توی HTML اضافه کنیم یا از طریق جاوااسکریپت موقع اجرا بذاریم:
+
+```html
+<copy-text class="alternate">Alternate text</copy-text>
+```
+
+به این شکل یه جور کنترل استایل از بیرون داریم، بدون اینکه ساختار داخلی مؤلفه‌مون در معرض خطر باشه.
+
+### استفاده از ویژگی‌های سفارشی CSS (Custom CSS Properties)
+
+اگه بخوایم یه سری مقادیر خاص از CSS داخل Shadow DOM قابل تنظیم باشن، می‌تونیم از ویژگی‌های سفارشی (Custom Properties) استفاده کنیم. یعنی میایم توی استایل‌هامون چک می‌کنیم که آیا این ویژگی‌ها روی المنت میزبان (host) تعریف شدن یا نه. اگه نبودن، یه مقدار پیش‌فرض براشون در نظر می‌گیریم.
+
+مثلاً:
+
+```css
+button {
+  background: var(--button-bg, dodgerblue);
+}
+
+button:hover {
+  background: var(--button-bg-hover, skyblue);
+}
+```
+
+بعدش می‌تونیم توی استایل‌های بیرونی این مقادیر رو تنظیم کنیم:
+
+```css
+copy-text {
+  --button-bg: orange;
+  --button-bg-hover: gold;
+}
+```
+
+با این کار می‌تونیم بدون اینکه وارد ساختار داخلی مؤلفه بشیم، بعضی از استایل‌هاش رو از بیرون کنترل کنیم.
+
+و اینم یه نمونه از روش‌هایی بود که می‌تونیم برای شخصی‌سازی مؤلفه‌هامون استفاده کنیم.
+
+<p
+  class="codepen"
+  data-height="300"
+  data-default-tab="html,result"
+  data-slug-hash="vEOYrLM"
+  data-pen-title="Shadow DOM Example"
+  data-user="besworks-dev"
+  style="height: 300px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;"
+>
+  <span>
+    See the Pen{' '}
+    <a href="https://codepen.io/besworks-dev/pen/vEOYrLM">Shadow DOM Example</a>{' '}
+    by Russell Beswick (
+    <a href="https://codepen.io/besworks-dev">@besworks-dev</a>) on{' '}
+    <a href="https://codepen.io">CodePen</a>.
+  </span>
+</p>
+<script async src="https://public.codepenassets.com/embed/index.js"></script>
+
+## روش ترکیبی (The Hybrid Approach)
+
+مثالی که بالا گفتیم برای مواقعی که فقط یه متن ساده داریم با یکی دو تا ویجت (مثل دکمه یا گزینه) که نیاز به سفارشی‌سازی دارن، خیلی خوب جواب می‌ده.
+
+ولی عناصر سفارشی محدود به همین استفاده‌های ساده نیستن.
+قبلاً هم راجع به مؤلفه‌هایی که خودشون بچه‌هاشون رو مدیریت می‌کنن صحبت کرده بودیم. خبر خوب اینه که حتی با وجود Shadow DOM هم می‌تونیم اون کار رو انجام بدیم، با استفاده از تگ `<slot>` و ویژگی `slot=`.
+
+مثلاً:
+
+```html
+<toggle-options>
+  <span slot="legend">Options</span>
+  <span>Option A</span>
+  <span>Option B</span>
+  <span>Option C</span>
+  <span>Option D</span>
+</toggle-options>
+```
+
+بیایم مثالی که قبلاً برای عناصر فرزند داشتیم رو آپدیت کنیم.
+همچنان قراره فقط یه سری span بهش پاس بدیم، ولی این‌بار این span‌ها رو می‌ذاریم توی یه fieldset که داخل Shadow DOM ماست.
+می‌تونستیم این قالب (template) رو توی سند میزبان قرار بدیم، ولی چون قرار نیست از بیرون بهش دسترسی داشته باشیم، می‌تونیم کل نشانه‌گذاری رو به‌صورت یه رشته‌ی قالبی (template literal) توی کد جاوااسکریپت عنصرمون بنویسیم.
+
+```javascript
+class ToggleOptionsElement extends HTMLElement {
+  #shadowRoot;
+
+  constructor() {
+    super();
+    this.#configure();
+  }
+
+  #configure() {
+    this.#shadowRoot = this.attachShadow({ mode: 'closed' });
+    this.#shadowRoot.innerHTML = this.#template;
+
+    // تنظیمات مربوط به Mutation Observer ...
+  }
+
+  get #template() {
+    return `
+      <style>
+        :host {
+          display: block;
+        }
+
+        fieldset {
+          display: flex;
+          flex-flow: row nowrap;
+          justify-content: space-around;
+          gap: 1em;
+        }
+      </style>
+      <fieldset>
+        <legend>
+          <slot name="legend">
+            <span>Fallback</span>
+          </slot>
+        </legend>
+        <slot></slot>
+      </fieldset>
+    `;
+  }
+
+  // منطق مربوط به مدیریت کلیک‌ها ...
+}
+```
+
+با این روش، ساختار اضافه، چیدمان کلی و رفتار مؤلفه‌مون توی Shadow DOM قرار گرفته و از بیرون دسترسی بهش نیست؛ ولی محتوای مؤلفه و استایلش همچنان توی سند میزبان تعریف می‌شن.
+
+یعنی یه جور «بهترینِ هر دو دنیا» رو داریم:
+از یه طرف، مؤلفه‌مون ساختار و استایل پایه‌ای خودش رو حفظ می‌کنه؛
+از اون طرف، محتوا و بخش‌های قابل تغییرش رو می‌شه از بیرون مدیریت کرد.
+
+<p
+  class="codepen"
+  data-height="300"
+  data-default-tab="html,result"
+  data-slug-hash="emNYjdx"
+  data-pen-title="Slotted Content Example"
+  data-user="besworks-dev"
+  style="height: 300px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;"
+>
+  <span>
+    See the Pen{' '}
+    <a href="https://codepen.io/besworks-dev/pen/emNYjdx">
+      Slotted Content Example
+    </a>{' '}
+    by Russell Beswick (
+    <a href="https://codepen.io/besworks-dev">@besworks-dev</a>) on{' '}
+    <a href="https://codepen.io">CodePen</a>.
+  </span>
+</p>
+<script async src="https://public.codepenassets.com/embed/index.js"></script>
+
+اسلات‌های نام‌گذاری‌شده (مثل `<slot name="legend">`) با اون المنت‌هایی پر می‌شن که ویژگی `slot="legend"` دارن. بقیه‌ی بچه‌های عنصر که اسلات مشخصی ندارن، می‌رن توی اسلات پیش‌فرض (یعنی همون اسلات بدون نام).
+
+چندتا المنت مختلف می‌تونن یه اسلات رو با هم به اشتراک بذارن. مثلاً اگه بخوای یه تصویر هم به قسمت عنوان (legend) اضافه کنی، خیلی راحت می‌تونی این کارو انجام بدی:
+
+```html
+<toggle-options>
+  <img slot="legend" src="options.svg" />
+  <span slot="legend">Options</span>
+  <span>Option A</span>
+  <span>Option B</span>
+  <span>Option C</span>
+  <span>Option D</span>
+</toggle-options>
+```
+
+ما حتی می‌تونیم برای محتوایی که از بیرون میاد (و از طریق اسلات داخل مؤلفه قرار می‌گیره) استایل هم بنویسیم. این کار با استفاده از selector مخصوصی به اسم `::slotted` توی CSS داخل Shadow DOM انجام می‌شه:
+
+```css
+::slotted(img[slot='legend']) {
+  height: 1em;
+}
+```
+
+با این روش، تصویر slotted هنوز هم می‌تونه از بیرون (توی صفحه میزبان) استایل بگیره، ولی یه استایل پیش‌فرض هم توسط خود مؤلفه براش تعیین شده.
+
+### ولی صبر کن، هنوز تموم نشده!
+
+تا اینجا یه قدم بزرگ برداشتیم توی یادگیری Web Components. با ترکیب HTML Template، Shadow DOM و Slotted Content تونستیم مؤلفه‌هایی بسازیم که:
+
+- قابل استفاده‌ی مجددن،
+- قابلیت تغییر ظاهر (تم‌پذیری) دارن،
+- و خیلی راحت می‌تونن توی پروژه‌های مختلف استفاده بشن.
+
+اما هنوز چیزای بیشتری هست که می‌تونیم یاد بگیریم!
+
+توی مقاله‌ی بعدی، یه نگاه دقیق‌تر به Shadow DOM می‌ندازیم — از جمله اینکه چطوری می‌تونیم CSS بین مؤلفه‌ها به اشتراک بذاریم و چطور می‌تونیم عملکرد رندرینگ رو بهینه کنیم.

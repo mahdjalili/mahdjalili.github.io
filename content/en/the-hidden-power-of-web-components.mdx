@@ -1,0 +1,424 @@
+---
+title: 'The Hidden Power of Web Components'
+publishedAt: '2025-05-31'
+summary: 'How Web Components can be used to build a more robust and maintainable web application.'
+language: 'en'
+tags: ['webdev', 'html', 'webcomponents']
+series: 'Mastering Web Components'
+seriesOrder: 4
+draft: true
+---
+
+Last week we discussed basic Custom Elements that live directly in the host document. That usage helped us streamline how we connect our logic to our page. Today we'll discuss how HTML Templates and Shadow DOM can help us create more complex, reusable components.
+
+## Adding Complexity
+
+Remember our `<copy-text>` element? It did it's job, but it was simple. Sometimes that level of complexity is perfect for our needs. But what if we wanted to enhance this element by adding a button that triggers the copy function? We would have to add quite a bit of extra markup to accomplish this.
+
+```html
+<copy-text>
+  <span class="content"> Some text to copy </span>
+  <button>
+    <img src="copy.svg" />
+    <span> Copy </span>
+  </button>
+</copy-text>
+```
+
+However, by doing that we've lost the elegant simplicty of our inline usage. Instead of just inserting a clean tag around the text that we want copied, we have to manually copy and paste this block of markup anywhere we need to use it. This is inefficient byte-wise and awkward from a Developer Experience standpoint.
+
+We could simplify this by building the markup structure using JavaScript inside our element definition.
+
+```javascript
+class CopyTextElement extends HTMLElement {
+  constructor() {
+    super();
+    this.#configure();
+  }
+
+  #configure() {
+    const fragment = document.createDocumentFragment();
+    const content = document.createElement('span');
+    const button = document.createElement('button');
+    const buttonIcon = document.createElement('img');
+    const buttonLabel = document.createElement('span');
+
+    content.className = 'content';
+    content.textContent = this.textContent;
+    buttonIcon.src = 'copy.svg';
+    buttonLabel.textContent = 'Copy';
+    button.addEventListener('click', () => this.#copyText());
+
+    button.append(buttonIcon, buttonLabel);
+    fragment.append(content, button);
+
+    this.replaceChildren(fragment);
+  }
+
+  #copyText() {
+    const text = this.querySelector('span.content').textContent;
+    navigator.clipboard.writeText(text);
+  }
+}
+
+customElements.define('copy-text', CopyTextElement);
+```
+
+That would give us back our basic usage.
+
+```html
+<copy-text> Some text to copy </copy-text>
+```
+
+But now we have obfuscated our markup. It is no longer obvious at a glance how this element is structured or what CSS we should write to style it. If you are working solo on a project, this might be fine for your use-case. But when working in a team, you may have a designer who doesn't know any JS. In order for them to create styles for this element they would need to get help from you, or inspect the composed element through their browser's dev tools. For one or two elements that might not be a big deal, but for a complex app built using many custom elements it would be tedious and unproductive, or simply not feasible to maintain.
+
+## Templates to the Rescue
+
+Luckily there is a better way to handle this. We can use HTML Templates to declaratively describe our composed structure.
+
+```html
+<template id="copy-text-structure">
+  <span class="content">placeholder</span>
+  <button>
+    <img src="copy.svg" />
+    <span> Copy </span>
+  </button>
+</template>
+
+<copy-text> Some text to copy </copy-text>
+<copy-text> Different Text </copy-text>
+<copy-text> More Text </copy-text>
+```
+
+Then we can modify our element's logic to clone this template structure rather than building the markup programmatically.
+
+```javascript
+class CopyTextElement extends HTMLElement {
+  constructor() {
+    super();
+    this.#configure();
+  }
+
+  #configure() {
+    const template = document.querySelector('template#copy-text-structure');
+    const structure = template.content.cloneNode(true);
+    const content = structure.querySelector('span.content');
+    const button = structure.querySelector('button');
+    content.textContent = this.textContent;
+    button.addEventListener('click', () => this.#copyText());
+    this.replaceChildren(structure);
+  }
+
+  #copyText() {
+    const text = this.querySelector('span.content').textContent;
+    navigator.clipboard.writeText(text);
+  }
+}
+
+customElements.define('copy-text', CopyTextElement);
+```
+
+To style the composed result, we just target the elements in our template as children of our custom element.
+
+```css
+copy-text {
+  display: inline-block;
+  background: dimgrey;
+  border: 1px solid black;
+  border-radius: 0.2em;
+}
+
+copy-text span.content {
+  padding: 0.5em;
+  font-family: monospace;
+}
+
+copy-text button {
+  border: 0;
+  background: dodgerblue;
+  cursor: pointer;
+}
+
+copy-text button:hover {
+  background: skyblue;
+}
+```
+
+Put all that together with a little polish and you get something like this:
+
+<p
+  class="codepen"
+  data-height="300"
+  data-default-tab="html,result"
+  data-slug-hash="pvJoVMN"
+  data-pen-title="HTML Template Example"
+  data-user="besworks-dev"
+  style="height: 300px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;"
+>
+  <span>
+    See the Pen{' '}
+    <a href="https://codepen.io/besworks-dev/pen/pvJoVMN">
+      HTML Template Example
+    </a>{' '}
+    by Russell Beswick (
+    <a href="https://codepen.io/besworks-dev">@besworks-dev</a>) on{' '}
+    <a href="https://codepen.io">CodePen</a>.
+  </span>
+</p>
+<script async src="https://public.codepenassets.com/embed/index.js"></script>
+
+## Separation of Concerns
+
+The method above works great when you want to style and control your components completely from the host page. But sometimes, as a component author, you may want to protect your structure and styles to make sure your component is not affected by the host page in ways that you don't intend.
+
+To accomplish this, we will use Shadow DOM to encapsulate our structure. We will still use a template as before, but the content inside our custom element will no longer be replaced by it. Instead, we will reference the content from the host side to use inside our sandboxed structure.
+
+```javascript
+class CopyTextElement extends HTMLElement {
+  #shadowRoot;
+
+  constructor() {
+    super();
+    this.#configure();
+  }
+
+  #configure() {
+    this.#shadowRoot = this.attachShadow({ mode: 'closed' });
+    const template = document.querySelector('template#copy-text-structure');
+    const structure = template.content.cloneNode(true);
+    const content = structure.querySelector('span.content');
+    const button = structure.querySelector('button');
+    content.textContent = this.textContent;
+    button.addEventListener('click', () => this.#copyText());
+    this.#shadowRoot.append(structure);
+  }
+
+  #copyText() {
+    const text = this.textContent;
+    navigator.clipboard.writeText(text);
+  }
+}
+
+customElements.define('copy-text', CopyTextElement);
+```
+
+However, if you try this, you will notice that our stylesheet no longer applies to our templated elements. The rule targeting copy-text is still applied, but none of the child elements look right. To encapsulate our CSS, we just need to move our rules into the template with a few little tweaks. In order to target the element itself, we must use the :host psuedo selector. And we no longer need to reference the elements as children of the host element.
+
+```html
+<template id="copy-text-structure">
+  <style>
+    :host {
+      display: inline-flex;
+      align-items: stretch;
+      background: dimgrey;
+      border: 1px solid black;
+      border-radius: 0.2em;
+    }
+
+    span.content {
+      margin: 0.5em;
+      font-family: monospace;
+    }
+
+    button {
+      display: flex;
+      flex-flow: row nowrap;
+      align-items: center;
+      gap: 0.2em;
+      border: 0;
+      background: dodgerblue;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: skyblue;
+    }
+
+    button img {
+      height: 1em;
+    }
+  </style>
+  <span class="content">placeholder</span>
+  <button>
+    <img src="copy.svg" />
+    <span> Copy </span>
+  </button>
+</template>
+```
+
+Now that the structure and styles are encapsulated, we have limited the ways in which an external stylesheet can affect them. Any rules we create will only target the host element. This might be exactly what you want, but perhaps you want to allow some customization. Since we've used a closed shadow root. The internal structure cannot be accessed from outside the element's instance. In order to selectively allow styles to be passed in we have a few options.
+
+## Internal Classes
+
+The most basic of these options doesn't allow full customization, but rather lets the component user set a theme or modify a component's state through the CSS class of the host element.
+
+```css
+:host(.alternate) button {
+  background: red;
+}
+
+:host(.alternate) button:hover {
+  background: salmon;
+}
+```
+
+Then we can just apply the class either in markup or added by JS at some point during the app's use.
+
+```html
+<copy-text class="alternate"> Alternate text </copy-text>
+```
+
+## Custom CSS Properties
+
+To allow control over specific CSS values inside the shadow root, we can check for custom properties on the host. We need to include fallback values in case these custom properties are not provided.
+
+```css
+button {
+  background: var(--button-bg, dodgerblue);
+}
+
+button:hover {
+  background: var(--button-bg-hover, skyblue);
+}
+```
+
+We would then set these values in our external stylesheet.
+
+```css
+copy-text {
+  --button-bg: orange;
+  --button-bg-hover: gold;
+}
+```
+
+Here's an example of these methods in action.
+
+<p
+  class="codepen"
+  data-height="300"
+  data-default-tab="html,result"
+  data-slug-hash="vEOYrLM"
+  data-pen-title="Shadow DOM Example"
+  data-user="besworks-dev"
+  style="height: 300px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;"
+>
+  <span>
+    See the Pen{' '}
+    <a href="https://codepen.io/besworks-dev/pen/vEOYrLM">Shadow DOM Example</a>{' '}
+    by Russell Beswick (
+    <a href="https://codepen.io/besworks-dev">@besworks-dev</a>) on{' '}
+    <a href="https://codepen.io">CodePen</a>.
+  </span>
+</p>
+<script async src="https://public.codepenassets.com/embed/index.js"></script>
+
+## The Hybrid Approach
+
+The above example works well for simple text content with a couple widgets that need customizing. But custom elements are not limited to this kind of simple use-case. We've discussed elements that manage their own children before. We can still do that while using a shadow root by taking advantage of the `<slot></slot>` tag and `slot=` attribute.
+
+```html
+<toggle-options>
+  <span slot="legend"> Options </span>
+  <span> Option A </span>
+  <span> Option B </span>
+  <span> Option C </span>
+  <span> Option D </span>
+</toggle-options>
+```
+
+Let's update our child element example from the previous article. We're still going to pass it only text content in the form of `<span>` elements. But these will be wrapped in a `<fieldset>` inside our Shadow DOM. We could include the template for this in the host document, but since it's not meant to be accessed from the outside, we can embed the markup as part of our element definition using a template literal.
+
+```javascript
+class ToggleOptionsElement extends HTMLElement {
+  #shadowRoot;
+
+  constructor() {
+    super();
+    this.#configure();
+  }
+
+  #configure() {
+    this.#shadowRoot = this.attachShadow({ mode: 'closed' });
+    this.#shadowRoot.innerHTML = this.#template;
+
+    // Mutation Observer configuration ...
+  }
+
+  get #template() {
+    return `
+      <style>
+        :host {
+          display: block;
+        }
+
+        fieldset {
+          display: flex;
+          flex-flow: row nowrap;
+          justify-content: space-around;
+          gap: 1em;
+        }
+      </style>
+      <fieldset>
+        <legend>
+          <slot name="legend">
+            <span> Fallback </span>
+          </slot>
+        </legend>
+        <slot></slot>
+      </fieldset>
+    `;
+  }
+
+  // Click handling logic ...
+}
+```
+
+Now the extra structure, overall layout, and behavior of our component are contained in our Shadow DOM, but the content and it's styling are still part of the host document.
+
+<p
+  class="codepen"
+  data-height="300"
+  data-default-tab="html,result"
+  data-slug-hash="emNYjdx"
+  data-pen-title="Slotted Content Example"
+  data-user="besworks-dev"
+  style="height: 300px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;"
+>
+  <span>
+    See the Pen{' '}
+    <a href="https://codepen.io/besworks-dev/pen/emNYjdx">
+      Slotted Content Example
+    </a>{' '}
+    by Russell Beswick (
+    <a href="https://codepen.io/besworks-dev">@besworks-dev</a>) on{' '}
+    <a href="https://codepen.io">CodePen</a>.
+  </span>
+</p>
+<script async src="https://public.codepenassets.com/embed/index.js"></script>
+
+The named `<slot>` gets filled by the element with the matching `slot=` attribute and the remaining collection of child elements end up filling the un-named (default) slot. Any number of elements can share a slot. So, for example, if you wanted to add an image to the legend you could easily do that.
+
+```html
+<toggle-options>
+  <img slot="legend" src="options.svg" />
+  <span slot="legend"> Options </span>
+  <span> Option A </span>
+  <span> Option B </span>
+  <span> Option C </span>
+  <span> Option D </span>
+</toggle-options>
+```
+
+We can also apply styles to our content using the `::slotted` psuedo-element selector inside the shadow root CSS.
+
+```css
+::slotted(img[slot='legend']) {
+  height: 1em;
+}
+```
+
+The slotted image can still be fully styled from the host page, but the default styling is set by the component itself.
+
+## But Wait, There's More...
+
+We've taken a big step forward in mastering Web Components. By combining HTML Templates, Shadow DOM and Slotted Content, we've created components that are reusable, themable, and easy to integrate into any project. But there's still more power to unlock. In the next article, we'll take a closer look at Shadow DOM including how we can share CSS between components and ways to optimize rendering performance.
