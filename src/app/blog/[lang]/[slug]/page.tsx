@@ -110,6 +110,7 @@ export default async function Blog({ params }: Props) {
       id="blog"
       style={isRtl(lang) ? { direction: 'rtl' } : { direction: 'ltr' }}
       dir={isRtl(lang) ? 'rtl' : 'ltr'}
+      className="w-full"
     >
       <script
         type="application/ld+json"
@@ -142,9 +143,9 @@ export default async function Blog({ params }: Props) {
         <h1 className="title font-medium text-2xl tracking-tighter max-w-[650px]">
           {post.metadata.title}
         </h1>
-        {isDev() && <LanguageSwitcher currentLang={lang} />}
+        <LanguageSwitcher currentLang={lang} />
       </div>
-      <div className="flex justify-between items-center mt-2 mb-8 text-sm max-w-[650px]">
+      <div className="flex justify-between items-center mt-2 mb-8 text-sm">
         <div className="flex justify-center items-center gap-4">
           <Suspense fallback={<p className="h-5" />}>
             <p className="text-sm text-neutral-600 dark:text-neutral-400">
@@ -158,7 +159,7 @@ export default async function Blog({ params }: Props) {
       </div>
 
       <article
-        className="prose dark:prose-invert"
+        className="prose dark:prose-invert max-w-full text-justify"
         dangerouslySetInnerHTML={{ __html: post.source }}
       ></article>
     </section>
