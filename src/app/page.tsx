@@ -7,7 +7,6 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { DATA } from '@/data/resume';
 import { getBlogPosts } from '@/data/blog';
-import type { BlogPost } from '@/types/blog';
 import { defaultLanguage } from '@/config/languages';
 import { BlogCard } from '@/components/blog-card';
 import Link from 'next/link';
@@ -16,7 +15,7 @@ import Markdown from 'react-markdown';
 const BLUR_FADE_DELAY = 0.04;
 
 export default async function Page() {
-  const posts = (await getBlogPosts(defaultLanguage)) as BlogPost[];
+  const posts = await getBlogPosts(defaultLanguage);
 
   const latestPost = posts
     .filter((post) => post.metadata.draft !== true)

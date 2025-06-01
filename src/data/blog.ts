@@ -32,7 +32,26 @@ export async function markdownToHTML(markdown: string) {
   return p.toString();
 }
 
-export async function getPost(slug: string, lang: string = defaultLanguage) {
+export type BlogPost = {
+  metadata: {
+    title: string;
+    publishedAt: string;
+    summary: string;
+    image?: string;
+    tags?: string[];
+    series?: string;
+    seriesOrder?: number;
+    language: any;
+    draft?: boolean;
+  };
+  slug: string;
+  source: string;
+};
+
+export async function getPost(
+  slug: string,
+  lang: string = defaultLanguage
+): Promise<BlogPost | null> {
   // Validate language
   if (!isValidLanguage(lang)) {
     lang = defaultLanguage;
@@ -53,17 +72,32 @@ export async function getPost(slug: string, lang: string = defaultLanguage) {
   // Ensure the language is set in the metadata
   const postLang = metadata.language || lang;
 
+  // Validate required metadata fields
+  if (!metadata.title || !metadata.publishedAt || !metadata.summary) {
+    return null;
+  }
+
   return {
     source: content,
     metadata: {
-      ...metadata,
-      language: postLang
+      title: metadata.title,
+      publishedAt: metadata.publishedAt,
+      summary: metadata.summary,
+      image: metadata.image,
+      tags: metadata.tags,
+      series: metadata.series,
+      seriesOrder: metadata.seriesOrder,
+      language: postLang,
+      draft: metadata.draft
     },
     slug
   };
 }
 
-async function getAllPosts(dir: string, lang: string = defaultLanguage) {
+async function getAllPosts(
+  dir: string,
+  lang: string = defaultLanguage
+): Promise<BlogPost[]> {
   // Validate language
   if (!isValidLanguage(lang)) {
     lang = defaultLanguage;
@@ -80,23 +114,15 @@ async function getAllPosts(dir: string, lang: string = defaultLanguage) {
     return [];
   }
 
-  return Promise.all(
+  const posts = await Promise.all(
     mdxFiles.map(async (file) => {
       let slug = path.basename(file, path.extname(file));
-      const post = await getPost(slug, lang);
-
-      // Skip posts that don't exist
-      if (!post) {
-        return null;
-      }
-
-      return {
-        metadata: post.metadata,
-        slug,
-        source: post.source
-      };
+      return getPost(slug, lang);
     })
-  ).then((posts) => posts.filter(Boolean));
+  );
+
+  // Filter out null values and ensure type safety
+  return posts.filter((post): post is BlogPost => post !== null);
 }
 
 export async function getBlogPosts(lang: string = defaultLanguage) {

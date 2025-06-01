@@ -7,7 +7,6 @@ import {
 } from '@/config/languages';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import type { BlogPost } from '@/types/blog';
 
 export const metadata = {
   title: 'Blog',
@@ -35,7 +34,7 @@ export default async function BlogPage({ params }: Props) {
     notFound();
   }
 
-  const posts = (await getBlogPosts(lang)) as BlogPost[];
+  const posts = await getBlogPosts(lang);
 
   return (
     <section>
