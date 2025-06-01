@@ -7,6 +7,7 @@ import {
 } from '@/config/languages';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
+import type { BlogPost } from '@/types/blog';
 
 export const metadata = {
   title: 'Blog',
@@ -14,22 +15,6 @@ export const metadata = {
 };
 
 const BLUR_FADE_DELAY = 0.04;
-
-type BlogPost = {
-  metadata: {
-    title: string;
-    publishedAt: string;
-    summary: string;
-    image?: string;
-    tags?: string[];
-    series?: string;
-    seriesOrder?: number;
-    language?: string;
-    draft?: boolean;
-  };
-  slug: string;
-  source: string;
-};
 
 export async function generateStaticParams() {
   return languages.map((lang) => ({

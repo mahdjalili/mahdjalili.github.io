@@ -6,12 +6,28 @@ import { ResumeCard } from '@/components/resume-card';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { DATA } from '@/data/resume';
+import { getBlogPosts } from '@/data/blog';
+import type { BlogPost } from '@/types/blog';
+import { defaultLanguage } from '@/config/languages';
+import { BlogCard } from '@/components/blog-card';
 import Link from 'next/link';
 import Markdown from 'react-markdown';
 
 const BLUR_FADE_DELAY = 0.04;
 
-export default function Page() {
+export default async function Page() {
+  const posts = (await getBlogPosts(defaultLanguage)) as BlogPost[];
+
+  const latestPost = posts
+    .filter((post) => post.metadata.draft !== true)
+    .sort((a, b) => {
+      if (new Date(a.metadata.publishedAt) > new Date(b.metadata.publishedAt)) {
+        return -1;
+      }
+      return 1;
+    })
+    .slice(0, 3);
+
   return (
     <main className="flex flex-col min-h-[100dvh] space-y-10">
       <section id="hero">
@@ -49,15 +65,48 @@ export default function Page() {
           </Markdown>
         </BlurFade>
       </section>
+
+      {latestPost && (
+        <section id="latest-blog">
+          <div className="flex min-h-0 flex-col gap-y-3">
+            <BlurFade delay={BLUR_FADE_DELAY * 5}>
+              <div className="flex justify-between items-center">
+                <h2 className="text-xl font-bold">Latest Blog Post</h2>
+                <Link
+                  href={`/blog/${defaultLanguage}`}
+                  className="text-sm text-muted-foreground hover:text-foreground"
+                >
+                  View all posts →
+                </Link>
+              </div>
+            </BlurFade>
+            <BlurFade delay={BLUR_FADE_DELAY * 6}>
+              {latestPost.map((post) => (
+                <BlogCard
+                  key={post.slug}
+                  title={post.metadata.title}
+                  summary={post.metadata.summary}
+                  publishedAt={post.metadata.publishedAt}
+                  slug={post.slug}
+                  lang={defaultLanguage}
+                  tags={post.metadata.tags}
+                  className="mb-2"
+                />
+              ))}
+            </BlurFade>
+          </div>
+        </section>
+      )}
+
       <section id="work">
         <div className="flex min-h-0 flex-col gap-y-3">
-          <BlurFade delay={BLUR_FADE_DELAY * 5}>
+          <BlurFade delay={BLUR_FADE_DELAY * 7}>
             <h2 className="text-xl font-bold">Work Experience</h2>
           </BlurFade>
           {DATA.work.map((work, id) => (
             <BlurFade
               key={work.company}
-              delay={BLUR_FADE_DELAY * 6 + id * 0.05}
+              delay={BLUR_FADE_DELAY * 8 + id * 0.05}
             >
               <ResumeCard
                 key={work.company}
@@ -76,13 +125,13 @@ export default function Page() {
       </section>
       <section id="education">
         <div className="flex min-h-0 flex-col gap-y-3">
-          <BlurFade delay={BLUR_FADE_DELAY * 7}>
+          <BlurFade delay={BLUR_FADE_DELAY * 9}>
             <h2 className="text-xl font-bold">Education</h2>
           </BlurFade>
           {DATA.education.map((education, id) => (
             <BlurFade
               key={education.school}
-              delay={BLUR_FADE_DELAY * 8 + id * 0.05}
+              delay={BLUR_FADE_DELAY * 10 + id * 0.05}
             >
               <ResumeCard
                 key={education.school}
@@ -99,12 +148,12 @@ export default function Page() {
       </section>
       <section id="skills">
         <div className="flex min-h-0 flex-col gap-y-3">
-          <BlurFade delay={BLUR_FADE_DELAY * 9}>
+          <BlurFade delay={BLUR_FADE_DELAY * 11}>
             <h2 className="text-xl font-bold">Skills</h2>
           </BlurFade>
           <div className="flex flex-wrap gap-1">
             {DATA.skills.map((skill, id) => (
-              <BlurFade key={skill} delay={BLUR_FADE_DELAY * 10 + id * 0.05}>
+              <BlurFade key={skill} delay={BLUR_FADE_DELAY * 12 + id * 0.05}>
                 <Badge key={skill}>{skill}</Badge>
               </BlurFade>
             ))}
@@ -113,7 +162,7 @@ export default function Page() {
       </section>
       <section id="projects">
         <div className="space-y-12 w-full py-12">
-          <BlurFade delay={BLUR_FADE_DELAY * 11}>
+          <BlurFade delay={BLUR_FADE_DELAY * 13}>
             <div className="flex flex-col items-center justify-center space-y-4 text-center">
               <div className="space-y-2">
                 <div className="inline-block rounded-lg bg-foreground text-background px-3 py-1 text-sm">
@@ -134,7 +183,7 @@ export default function Page() {
             {DATA.projects.map((project, id) => (
               <BlurFade
                 key={project.title}
-                delay={BLUR_FADE_DELAY * 12 + id * 0.05}
+                delay={BLUR_FADE_DELAY * 14 + id * 0.05}
               >
                 <ProjectCard
                   href={project.href}
@@ -154,7 +203,7 @@ export default function Page() {
       </section>
       <section id="hackathons">
         <div className="space-y-12 w-full py-12">
-          <BlurFade delay={BLUR_FADE_DELAY * 13}>
+          <BlurFade delay={BLUR_FADE_DELAY * 15}>
             <div className="flex flex-col items-center justify-center space-y-4 text-center">
               <div className="space-y-2">
                 <div className="inline-block rounded-lg bg-foreground text-background px-3 py-1 text-sm">
@@ -174,12 +223,12 @@ export default function Page() {
               </div>
             </div>
           </BlurFade>
-          <BlurFade delay={BLUR_FADE_DELAY * 14}>
+          <BlurFade delay={BLUR_FADE_DELAY * 16}>
             <ul className="mb-4 ml-4 divide-y divide-dashed border-l">
               {DATA.hackathons.map((project, id) => (
                 <BlurFade
                   key={project.title + project.dates}
-                  delay={BLUR_FADE_DELAY * 15 + id * 0.05}
+                  delay={BLUR_FADE_DELAY * 17 + id * 0.05}
                 >
                   <HackathonCard
                     title={project.title}
@@ -197,7 +246,7 @@ export default function Page() {
       </section>
       <section id="contact">
         <div className="grid items-center justify-center gap-4 px-4 text-center md:px-6 w-full py-12">
-          <BlurFade delay={BLUR_FADE_DELAY * 16}>
+          <BlurFade delay={BLUR_FADE_DELAY * 18}>
             <div className="space-y-3">
               <div className="inline-block rounded-lg bg-foreground text-background px-3 py-1 text-sm">
                 Contact

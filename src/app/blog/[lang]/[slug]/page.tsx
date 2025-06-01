@@ -4,12 +4,7 @@ import { formatDate, calculateReadingTime } from '@/lib/utils';
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { Suspense } from 'react';
-import {
-  defaultLanguage,
-  languages,
-  isValidLanguage,
-  isRtl
-} from '@/config/languages';
+import { languages, isValidLanguage, isRtl } from '@/config/languages';
 import LanguageSwitcher from '@/components/language-switcher';
 import { isDev } from '@/lib/utils';
 
