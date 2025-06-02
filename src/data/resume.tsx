@@ -8,9 +8,11 @@ export const DATA = {
   location: 'Tehran, IR',
   locationLink: 'https://www.google.com/maps/place/Tehran,+Iran',
   description:
-    'A Software Engineer and Front-End Developer with a passion for building startups and turning ideas into impactful products. I enjoy diving into AI and mentoring future tech enthusiasts.',
+    'Software Engineer and Front-End Developer with a passion for building startups.',
   summary:
-    'Hi there! I’m Mahdi, a Front-End Developer and Software Engineer. My journey includes building innovative platforms like Tarhvar, a merchandise platform for artists, and contributing to AIsion, an AI-powered image generation platform. I love blending creativity with technology and have honed my skills in React, Next.js, AntDesign, and Material UI. Alongside these, I’ve earned accolades in international robotics and enjoy mentoring and exploring AI and Machine Learning.',
+    'What started as a curiosity for how things work turned into a journey through engineering, startups, and creative tech. Over time, I found myself drawn not just to coding, but to building meaningful products—tools that help people express ideas, solve problems, or simply do things better.\n\n' +
+    "From helping launch a platform for independent artists to contributing to an AI-driven image generation tool, I've explored how design, engineering, and creativity intersect. Along the way, I've worked with diverse teams, joined communities that push boundaries, and learned a lot about building in fast-moving, real-world environments.\n\n" +
+    "These days, I'm focused on projects that are thoughtful, useful, and a little bit ambitious. If that resonates with you, feel free to reach out or connect on [LinkedIn](https://www.linkedin.com/in/mahdi-jalili).",
   avatarUrl: '/me.jpg',
   skills: [
     'TypeScript',
@@ -113,7 +115,7 @@ export const DATA = {
       start: 'January 2024',
       end: 'Present',
       description:
-        'Developing and maintaining scalable front-end solutions to enhance user engagement and provide seamless experiences across Tapsell’s advertising platforms.'
+        "Developing and maintaining scalable front-end solutions to enhance user engagement and provide seamless experiences across Tapsell's advertising platforms."
     },
     {
       company: 'Siliconamma | سیلیکون امّا',
@@ -164,7 +166,7 @@ export const DATA = {
       start: 'August 2023',
       end: 'March 2024',
       description:
-        'Led a student-driven team to create a collaborative platform for students and entrepreneurs. Organized community events and contributed to key decisions improving the platform’s user experience.'
+        "Led a student-driven team to create a collaborative platform for students and entrepreneurs. Organized community events and contributed to key decisions improving the platform's user experience."
     },
     {
       company: 'Awdge Pazhoohesh Sanaat (APS) Consulting Engineers',
@@ -676,4 +678,4 @@ export const DATA = {
       ]
     }
   ]
-} as const;
+};
